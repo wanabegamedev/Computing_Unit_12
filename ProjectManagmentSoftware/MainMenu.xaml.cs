@@ -19,11 +19,12 @@ namespace ProjectManagmentSoftware
     /// </summary>
     public partial class MainMenu : Window
     {
+        
         string projectName;
         DateTime startDate;
         DateTime endDate;
 
-         string todaysDate = DateTime.Now.ToString();
+    
         public MainMenu()
         {
             InitializeComponent();
@@ -33,8 +34,11 @@ namespace ProjectManagmentSoftware
         {
             projectName = ProjectNameTextBox.Text;
 
+            startDate = Convert.ToDateTime(projectStartDateTextBox.Text);
+            endDate = Convert.ToDateTime(projectEndDateTextBox.Text);
 
-            if (startDate !< DateTime.Now & startDate != endDate)
+
+            if (startDate < DateTime.Now & startDate != endDate )
             {
                 startDate = Convert.ToDateTime(projectStartDateTextBox.Text);
             }
@@ -43,7 +47,8 @@ namespace ProjectManagmentSoftware
                 MessageBox.Show("Invalid Date: please re-enter start date");
                 return;
             }
-            if (endDate !> DateTime.Now & endDate != startDate)
+
+            if (endDate > DateTime.Now & endDate != startDate)
             {
                 endDate = Convert.ToDateTime(projectEndDateTextBox.Text);
             }
@@ -54,9 +59,10 @@ namespace ProjectManagmentSoftware
             }
 
 
-            new Project(projectName, startDate, endDate);
+            var newProject = new Project(projectName, startDate, endDate);
 
-            OpenKanbanWindow();
+
+            LoadProject(newProject);
             CloseMainMenu();
 
 
@@ -64,11 +70,14 @@ namespace ProjectManagmentSoftware
 
 
 
-
-        void OpenKanbanWindow()
+        public void LoadProject(Project project)
         {
+            var kanbanBoard = new KanbanBoard();
+            kanbanBoard.Show();
+            kanbanBoard.LoadProjectDetails(project);
 
         }
+
         void CloseMainMenu()
         {
             this.Close();
