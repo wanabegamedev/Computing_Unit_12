@@ -6,7 +6,5 @@
         xmlns:local="clr-namespace:ProjectManagmentSoftware"
         mc:Ignorable="d"
         Title="KanbanBoard" Height="450" Width="800">
-    <Grid>
-        <Rectangle HorizontalAlignment="Left" Height="70" Margin="42,108,0,0" Stroke="Black" VerticalAlignment="Top" Width="258"/>
-    </Grid>
+    <Grid x:Name="Kanban_Grid"/>
 </Window>

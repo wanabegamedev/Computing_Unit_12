@@ -32,8 +32,8 @@
             <TabItem Header="Load">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="121*"/>
                     </Grid.ColumnDefinitions>
 
                 </Grid>
