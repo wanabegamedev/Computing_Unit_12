@@ -6,12 +6,12 @@ namespace ProjectManagmentSoftware
     public class Card
     {
 
-        string cardTitle { get; set; }
-        string cardDescription { get; set; }
-        DateTime cardStartDate { get; set; }
-        DateTime cardEndDate { get; set; }
-        State currentState { get; set; }
-        int cardIndex { get; set; }
+        string cardTitle;
+        string cardDescription;
+        DateTime cardStartDate;
+        DateTime cardEndDate;
+        State currentState;
+        int cardIndex;
 
 
         //change from sudo code to add a card index of position in state
@@ -25,6 +25,8 @@ namespace ProjectManagmentSoftware
             
         }
 
+
+        //getter and setter functions for all the variables 
         public void SetState(State newState)
         {
             currentState = newState;
@@ -44,25 +46,48 @@ namespace ProjectManagmentSoftware
             return cardTitle;
         }
 
-        public void SetCardDescription(string newCardDescription)
+        public void SetDescription(string newCardDescription)
         {
             cardDescription = newCardDescription;
         }
 
-        public string GetCardDescription()
+        public string GetDescription()
         {
             return cardDescription;
         }
 
-        public void SetCardIndex(int newCardIndex)
+        public void SetIndex(int newCardIndex)
         {
             cardIndex = newCardIndex;
         }
 
-        public int GetCardIndex()
+        public int GetIndex()
         {
             return cardIndex; 
         }
+
+        public void SetStartDate(DateTime newStartDate)
+        {
+            cardStartDate = newStartDate;
+            
+        }
+
+        public DateTime GetStartDate()
+        {
+            return cardStartDate;
+        }
+
+        public void SetEndDate(DateTime newEndDate)
+        {
+            cardEndDate = newEndDate;
+
+        }
+
+        public DateTime GetEndDate()
+        {
+            return cardStartDate;
+        }
+
 
     }
 }

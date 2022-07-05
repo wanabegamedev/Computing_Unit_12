@@ -89,11 +89,10 @@ namespace ProjectManagmentSoftware
             tempButton.Width = 60;
             tempButton.Height = 40;
             tempButton.Content = tempCard.GetTitle();
-            tempButton.Foreground = new SolidColorBrush(Colors.White);
             tempButton.MouseDoubleClick += CardDoubleClick;
 
             //sets card's positon in current state
-            tempCard.SetCardIndex(rowCount);
+            tempCard.SetIndex(rowCount);
 
             //makes the tag of the button hold all the data of the card
             tempButton.Tag = tempCard;
@@ -109,7 +108,11 @@ namespace ProjectManagmentSoftware
 
         void CardDoubleClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("hi");
+
+            //makes object access button functionality
+            Button b = sender as Button;
+
+            new EditCardDetailsWindow((Card)b.Tag, b).Show();
             
         }
         
@@ -121,7 +124,7 @@ namespace ProjectManagmentSoftware
             cardWindow.Show();
             cardWindow.setKanbanBoard(this);
 
-            Button b = (Button)sender;
+
             
            
          

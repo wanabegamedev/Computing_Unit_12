@@ -4,9 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectManagmentSoftware"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
-        Title="EditCardDetailsWindow" Height="450" Width="800">
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="EditCardDetailsWindow" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid>
-        
+        <TextBox x:Name="TitleTextBox" HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="174" />
+        <Label Content="Title" HorizontalAlignment="Left" Margin="81,71,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="DescriptionTextBox" HorizontalAlignment="Left" Margin="3,182,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="181" Height="114"/>
+        <Label Content="Description&#xA;" HorizontalAlignment="Left" Margin="59,156,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.551,0.485"/>
+        <DatePicker x:Name="StartDatePicker" Margin="278,90,0,0" VerticalAlignment="Top"/>
+        <Label Content="Start Date" HorizontalAlignment="Left" Margin="308,71,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="EndDatePicker" Margin="278,184,0,0" VerticalAlignment="Top"/>
+        <Label Content="End Date" HorizontalAlignment="Left" Margin="311,165,0,0" VerticalAlignment="Top"/>
+        <Button Content="Save Changes" Height="61" Margin="217,363,0,0" VerticalAlignment="Top" Width="270" Click="Button_Click"/>
     </Grid>
 </Window>

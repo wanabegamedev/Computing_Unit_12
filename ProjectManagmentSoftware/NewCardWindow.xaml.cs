@@ -70,6 +70,7 @@ namespace ProjectManagmentSoftware
             Project.cards.Add(newCard);
             newCard.SetState(State.todo);
             currentKanbanBoard.CreateVisualCard();
+            this.Close();
            
 
         }
