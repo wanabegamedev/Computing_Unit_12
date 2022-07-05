@@ -7,7 +7,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
         ui:WindowHelper.UseModernWindowStyle="True"
-        Title="NewCardWindow" Height="400" Width="500" Loaded="Window_Loaded">
+        Title="New Card" Height="400" Width="500" Loaded="Window_Loaded">
     <Grid>
         <TextBox x:Name="TitleInputBox" HorizontalAlignment="Center" Height="38" Margin="0,50,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="216"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-gb" Text="Title"/></TextBlock>
