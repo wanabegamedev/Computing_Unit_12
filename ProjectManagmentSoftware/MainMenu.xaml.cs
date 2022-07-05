@@ -20,10 +20,7 @@ namespace ProjectManagmentSoftware
     public partial class MainMenu : Window
     {
         
-        string projectName;
-        DateTime startDate;
-        DateTime endDate;
-
+        
     
         public MainMenu()
         {
@@ -32,37 +29,20 @@ namespace ProjectManagmentSoftware
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            projectName = ProjectNameTextBox.Text;
-
-            startDate = Convert.ToDateTime(projectStartDateTextBox.Text);
-            endDate = Convert.ToDateTime(projectEndDateTextBox.Text);
+            
 
 
-            if (startDate < DateTime.Now & startDate != endDate )
-            {
-                startDate = Convert.ToDateTime(projectStartDateTextBox.Text);
-            }
-            else
-            {
-                MessageBox.Show("Invalid Date: please re-enter start date");
-                return;
-            }
-
-            if (endDate > DateTime.Now & endDate != startDate)
-            {
-                endDate = Convert.ToDateTime(projectEndDateTextBox.Text);
-            }
-            else
-            {
-                MessageBox.Show("Invalid Date: please re-enter end date");
-                return;
-            }
 
 
-            var newProject = new Project(projectName, startDate, endDate);
+            Project.projectName = ProjectNameTextBox.Text;
+            Project.startDate = Convert.ToDateTime(projectStartDateTextBox.Text);
+            Project.endDate = Convert.ToDateTime(projectEndDateTextBox.Text);
 
 
-            LoadProject(newProject);
+            
+
+
+            LoadProject();
             CloseMainMenu();
 
 
@@ -70,11 +50,11 @@ namespace ProjectManagmentSoftware
 
 
 
-        public void LoadProject(Project project)
+        public void LoadProject()
         {
             var kanbanBoard = new KanbanBoard();
             kanbanBoard.Show();
-            kanbanBoard.LoadProjectDetails(project);
+            kanbanBoard.LoadProjectDetails();
 
         }
 
@@ -82,6 +62,47 @@ namespace ProjectManagmentSoftware
         {
             this.Close();
         }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            projectStartDateTextBox.SelectedDate = DateTime.Today;
+            projectEndDateTextBox.SelectedDate= DateTime.Today;
+
+            
+        }
+
+        private void projectStartDateTextBox_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (projectStartDateTextBox.SelectedDate < DateTime.Today)
+            {
+                MessageBox.Show("Error: date can not be less then today");
+                projectStartDateTextBox.SelectedDate = DateTime.Today;
+
+                
+            }
+
+            
+            
+
+
+
+        }
+
+        private void projectEndDateTextBox_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (projectEndDateTextBox.SelectedDate < projectStartDateTextBox.SelectedDate)
+            {
+                MessageBox.Show("Error: date can not be less then start date");
+                projectEndDateTextBox.SelectedDate = projectStartDateTextBox.SelectedDate;
+            }
+            
+        }
+
+
+
+
+
 
         //VAR projectName
         //VAR startDate

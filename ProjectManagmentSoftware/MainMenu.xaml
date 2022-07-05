@@ -7,7 +7,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
         ui:WindowHelper.UseModernWindowStyle="True"
-        Title="MainMenu" Height="450" Width="800">
+        Title="MainMenu" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid>
         <TabControl HorizontalAlignment="Center" Height="414" VerticalAlignment="Center" Width="780">
             <TabItem Header="Home" Foreground="Black">
@@ -21,9 +21,9 @@
                     <Button x:Name="CreateProjectButton" Content="Create Project&#xD;&#xA;" Height="42" Margin="268,322,0,0" VerticalAlignment="Top" Width="248" Click="Button_Click"/>
                     <TextBox x:Name="ProjectNameTextBox" HorizontalAlignment="Center" Height="34" Margin="0,68,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="180"/>
                     <Label Content="Project Name" HorizontalAlignment="Left" Margin="341,23,0,0" VerticalAlignment="Top" Height="27" Width="122"/>
-                    <DatePicker x:Name="projectStartDateTextBox" Height="46" Margin="40,112,0,0" VerticalAlignment="Top" Width="132"/>
+                    <DatePicker x:Name="projectStartDateTextBox" Height="46" Margin="40,112,0,0" VerticalAlignment="Top" Width="132" IsDropDownOpen="True" SelectedDateChanged="projectStartDateTextBox_SelectedDateChanged"/>
                     <Label Content="Start Date" HorizontalAlignment="Left" Margin="72,85,0,0" VerticalAlignment="Top" Height="27" Width="68"/>
-                    <DatePicker x:Name="projectEndDateTextBox" Height="46" Margin="571,124,0,0" VerticalAlignment="Top" Width="132"/>
+                    <DatePicker x:Name="projectEndDateTextBox" Height="46" Margin="571,124,0,0" VerticalAlignment="Top" Width="132" SelectedDateChanged="projectEndDateTextBox_SelectedDateChanged"/>
                     <Label Content="Start Date" HorizontalAlignment="Left" Margin="603,97,0,0" VerticalAlignment="Top" Height="27" Width="68"/>
                 </Grid>
 
