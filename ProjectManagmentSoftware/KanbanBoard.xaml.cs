@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Input; 
+
 
 namespace ProjectManagmentSoftware
 {
@@ -90,6 +92,7 @@ namespace ProjectManagmentSoftware
             tempButton.Height = 40;
             tempButton.Content = tempCard.GetTitle();
             tempButton.MouseDoubleClick += CardDoubleClick;
+            tempButton.MouseLeftButtonDown += OnMouseDown;
 
             //sets card's positon in current state
             tempCard.SetIndex(rowCount);
@@ -97,7 +100,9 @@ namespace ProjectManagmentSoftware
             //makes the tag of the button hold all the data of the card
             tempButton.Tag = tempCard;
 
-            Kanban_Grid.RowDefinitions.Add(new RowDefinition());
+            RowDefinition newRow = new RowDefinition();
+
+            Kanban_Grid.RowDefinitions.Add(newRow);
             rowCount += 1;
 
 
@@ -115,14 +120,33 @@ namespace ProjectManagmentSoftware
             new EditCardDetailsWindow((Card)b.Tag, b).Show();
             
         }
+
+        void OnMouseDown(object sender, MouseEventArgs e)
+        {
+            Button selectedButton = sender as Button;
+            Point mousePos = e.GetPosition(this);
+
+            MessageBox.Show("text");
+            selectedButton.Width = mousePos.X;
+            selectedButton.Height = mousePos.Y;
+
+
+            Kanban_Grid.Children.Remove(selectedButton);
+            
+
+            selectedButton.SetValue(Canvas.TopProperty, mousePos.Y);
+            selectedButton.SetValue(Canvas.LeftProperty, mousePos.X);
+
+        }
         
 
         //Loads create new card window
         private void LoadCreateCardWindow_Click(object sender, RoutedEventArgs e)
         {
-            var cardWindow = new NewCardWindow();
+            var cardWindow = new NewCardWindow(this);
             cardWindow.Show();
-            cardWindow.setKanbanBoard(this);
+            
+            
 
 
             

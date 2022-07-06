@@ -22,9 +22,10 @@ namespace ProjectManagmentSoftware
 
         KanbanBoard currentKanbanBoard;
     
-        public NewCardWindow()
+        public NewCardWindow(KanbanBoard kanbanBoard)
         {
             InitializeComponent();
+            currentKanbanBoard = kanbanBoard;
         }
 
 
@@ -42,11 +43,7 @@ namespace ProjectManagmentSoftware
         }
 
 
-        public void setKanbanBoard(KanbanBoard kanbanBoard)
-        {
-            //passes through current kanban board
-            currentKanbanBoard = kanbanBoard;
-        }
+        
 
 
         private void CreateCardButton_Click(object sender, RoutedEventArgs e)
