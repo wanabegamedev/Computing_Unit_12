@@ -38,7 +38,7 @@ namespace ProjectManagmentSoftware
             StartDatePicker.DisplayDateEnd = Project.endDate;
             EndDatePicker.DisplayDateStart = Project.startDate;
             EndDatePicker.DisplayDateEnd = Project.endDate;
-
+            
             
         }
 
@@ -60,6 +60,7 @@ namespace ProjectManagmentSoftware
             {
                 tempDescription = Description_InputBox.Text;
             }
+
 
 
             var newCard = new Card(TitleInputBox.Text, Convert.ToDateTime(StartDatePicker.SelectedDate), Convert.ToDateTime(EndDatePicker.SelectedDate), tempDescription);

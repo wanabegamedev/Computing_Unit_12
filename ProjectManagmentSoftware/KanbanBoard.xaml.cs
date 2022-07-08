@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Input; 
 
 
 namespace ProjectManagmentSoftware
@@ -14,12 +14,16 @@ namespace ProjectManagmentSoftware
     public partial class KanbanBoard : Window
     {
 
-        int rowCount = 0;
+        Button buttonBeingDragged;
+
+        int toDoRowCount = 0;
+
 
 
         public KanbanBoard()
         {
             InitializeComponent();
+            Kanban_Grid.AllowDrop = true;
 
         }
 
@@ -40,6 +44,8 @@ namespace ProjectManagmentSoftware
                 Kanban_Grid.ColumnDefinitions.Add(new ColumnDefinition());
                 var header = new TextBlock();
                 header.Text = Enum.GetName(typeof(State), i);
+                header.Tag = Enum.GetName(typeof(State), i);
+                header.Name = Enum.GetName(typeof(State), i);
                 header.FontSize = 20;
                 header.VerticalAlignment = VerticalAlignment.Top;
                 header.HorizontalAlignment = HorizontalAlignment.Center;
@@ -52,7 +58,7 @@ namespace ProjectManagmentSoftware
 
             if (Project.cards.Count > 0)
             {
-                
+
 
                 //debug amount for testing
                 for (int i = 0; i < Project.cards.Count; i++)
@@ -83,29 +89,52 @@ namespace ProjectManagmentSoftware
         public void CreateVisualCard()
         {
             Card tempCard = (Card)Project.cards[Project.cards.Count - 1];
-            var tempButton = new Button();
-            Grid.SetColumn(tempButton, 0);
-            Grid.SetRow(tempButton, rowCount);
-            Kanban_Grid.Children.Add(tempButton);
-            tempButton.HorizontalAlignment = HorizontalAlignment.Center;
-            tempButton.Width = 60;
-            tempButton.Height = 40;
-            tempButton.Content = tempCard.GetTitle();
-            tempButton.MouseDoubleClick += CardDoubleClick;
-            tempButton.MouseLeftButtonDown += OnMouseDown;
+            for (int i = 0; i < 3; i++)
+            {
+                var tempButton = new Button();
+                tempButton.HorizontalAlignment = HorizontalAlignment.Center;
+                tempButton.Width = 60;
+                tempButton.Height = 40;
+                tempButton.PreviewMouseDown += DragIt;
+                tempButton.Drop += DropIt;
+                tempButton.AllowDrop = true;
 
-            //sets card's positon in current state
-            tempCard.SetIndex(rowCount);
+                if (i == 0)
+                {
+                    //makes the tag of the button hold all the data of the card
+                    tempButton.Tag = tempCard;
 
-            //makes the tag of the button hold all the data of the card
-            tempButton.Tag = tempCard;
+                    //sets card's positon in current state
+                    tempCard.SetIndex(toDoRowCount);
+
+                    tempButton.Content = tempCard.GetTitle();
+
+                    tempButton.MouseDoubleClick += CardDoubleClick;
+                }
+                else
+                {
+                    tempButton.Content = "";
+                }
+
+                Grid.SetColumn(tempButton, i);
+                Grid.SetRow(tempButton, toDoRowCount);
+                Kanban_Grid.Children.Add(tempButton);
+            }
+
+
+
+
+
+
+
+
+
+
 
             RowDefinition newRow = new RowDefinition();
 
             Kanban_Grid.RowDefinitions.Add(newRow);
-            rowCount += 1;
-
-
+            toDoRowCount += 1;
 
 
         }
@@ -117,42 +146,78 @@ namespace ProjectManagmentSoftware
             //makes object access button functionality
             Button b = sender as Button;
 
+            if (b.Tag != null)  
             new EditCardDetailsWindow((Card)b.Tag, b).Show();
-            
+
         }
 
-        void OnMouseDown(object sender, MouseEventArgs e)
+        void DragIt(object sender, MouseEventArgs e)
+        {
+
+            buttonBeingDragged = sender as Button;
+            Mouse.SetCursor(Cursors.Hand);
+            if (buttonBeingDragged.Content.ToString() != "")
+            {
+                DragDrop.DoDragDrop(buttonBeingDragged, buttonBeingDragged, DragDropEffects.Copy);
+            }
+
+        }
+
+
+
+        void DropIt(object sender, DragEventArgs e)
         {
             Button selectedButton = sender as Button;
-            Point mousePos = e.GetPosition(this);
 
-            MessageBox.Show("text");
-            selectedButton.Width = mousePos.X;
-            selectedButton.Height = mousePos.Y;
+            //makes sure you cant drag and drop onto the button you are dragging
+            if (selectedButton == buttonBeingDragged)
+            {
+                return;
+            }
+
+            selectedButton.Content = buttonBeingDragged.Content;
+            selectedButton.Tag = (Card)buttonBeingDragged.Tag;
+            selectedButton.MouseDoubleClick += CardDoubleClick;
+
+            Card buttonCard = selectedButton.Tag as Card;
+
+            switch (Grid.GetColumn(selectedButton))
+            {
+                default:
+                    break;
+                case 0:
+                    buttonCard.SetState(State.todo);
+                    break;
+                case 1:
+                    buttonCard.SetState(State.inprogress);
+                    break;
+                case 2:
+                    buttonCard.SetState(State.done);
+                    break;
+
+            }
+
+            buttonBeingDragged.Content = "";
+            buttonBeingDragged.Tag = null;
+            buttonBeingDragged.MouseDoubleClick -= CardDoubleClick;
 
 
-            Kanban_Grid.Children.Remove(selectedButton);
-            
-
-            selectedButton.SetValue(Canvas.TopProperty, mousePos.Y);
-            selectedButton.SetValue(Canvas.LeftProperty, mousePos.X);
 
         }
-        
+
 
         //Loads create new card window
         private void LoadCreateCardWindow_Click(object sender, RoutedEventArgs e)
         {
+            //creates NewCardWindow and passes in the kanban board
             var cardWindow = new NewCardWindow(this);
             cardWindow.Show();
-            
-            
-
-
-            
-           
-         
 
         }
+
+
+
     }
+
 }
+

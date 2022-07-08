@@ -35,6 +35,7 @@ namespace ProjectManagmentSoftware
             EndDatePicker.DisplayDateStart = Project.startDate;
             EndDatePicker.DisplayDateEnd = Project.endDate;
 
+        
             TitleTextBox.Text = selectedCard.GetTitle();
             DescriptionTextBox.Text = selectedCard.GetDescription();
             StartDatePicker.SelectedDate = selectedCard.GetStartDate();
