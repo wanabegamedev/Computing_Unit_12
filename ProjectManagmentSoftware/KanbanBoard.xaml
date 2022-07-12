@@ -8,7 +8,53 @@
         mc:Ignorable="d"
         ui:WindowHelper.UseModernWindowStyle="True"
         Title="KanbanBoard" Height="450" Width="800">
-    <Grid x:Name="Kanban_Grid">
-        <Button x:Name="LoadCreateCardWindow" Content="Create New Card" VerticalAlignment="Top" Click="LoadCreateCardWindow_Click" Background="Green" Height="30" Margin="10,394,0,0" Width="132"/>
+
+    <Grid x:Name="Base_Grid" Margin="0,56,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="347*"/>
+            <RowDefinition Height="32*"/>
+        </Grid.RowDefinitions>
+
+
+
+
+
+        <Grid x:Name="Header_Grid" Grid.Row="0" Margin="0,-54,0,346">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Todo" HorizontalAlignment="Left" Margin="113,0,0,0" VerticalAlignment="Center" RenderTransformOrigin="0,0.767" FontSize="20"/>
+            <Label Content="In Progress" HorizontalAlignment="Left" Margin="351,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.767" FontSize="20"/>
+            <Label Content="Done" HorizontalAlignment="Left" Margin="640,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.767" FontSize="20"/>
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,30" Grid.RowSpan="1">
+            <Grid x:Name="Kanban_Grid">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </ScrollViewer>
+
+        <Button x:Name="LoadCreateCardWindow" Content="Create New Card" Click="LoadCreateCardWindow_Click" Background="Green" Height="30" Width="132" Margin="10,0,0,0" Panel.ZIndex="1" Grid.Row="1"/>
+
+
     </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </Window>

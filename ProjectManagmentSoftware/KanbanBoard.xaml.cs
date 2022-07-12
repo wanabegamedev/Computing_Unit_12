@@ -41,20 +41,10 @@ namespace ProjectManagmentSoftware
             //creates column headers
             for (int i = 0; i < 3; i++)
             {
-                Kanban_Grid.ColumnDefinitions.Add(new ColumnDefinition());
-                var header = new TextBlock();
-                header.Text = Enum.GetName(typeof(State), i);
-                header.Tag = Enum.GetName(typeof(State), i);
-                header.Name = Enum.GetName(typeof(State), i);
-                header.FontSize = 20;
-                header.VerticalAlignment = VerticalAlignment.Top;
-                header.HorizontalAlignment = HorizontalAlignment.Center;
-                Grid.SetColumn(header, i);
-                Kanban_Grid.Children.Add(header);
-
-
-
+                Kanban_Grid.ColumnDefinitions.Add(new ColumnDefinition());              
             }
+
+
 
             if (Project.cards.Count > 0)
             {
@@ -121,17 +111,9 @@ namespace ProjectManagmentSoftware
                 Kanban_Grid.Children.Add(tempButton);
             }
 
-
-
-
-
-
-
-
-
-
-
             RowDefinition newRow = new RowDefinition();
+
+            newRow.Height = new GridLength(70);
 
             Kanban_Grid.RowDefinitions.Add(newRow);
             toDoRowCount += 1;
@@ -146,8 +128,8 @@ namespace ProjectManagmentSoftware
             //makes object access button functionality
             Button b = sender as Button;
 
-            if (b.Tag != null)  
-            new EditCardDetailsWindow((Card)b.Tag, b).Show();
+            if (b.Tag != null)
+                new EditCardDetailsWindow((Card)b.Tag, b).Show();
 
         }
 
@@ -156,6 +138,8 @@ namespace ProjectManagmentSoftware
 
             buttonBeingDragged = sender as Button;
             Mouse.SetCursor(Cursors.Hand);
+
+            //check to see if card data is not null
             if (buttonBeingDragged.Content.ToString() != "")
             {
                 DragDrop.DoDragDrop(buttonBeingDragged, buttonBeingDragged, DragDropEffects.Copy);
