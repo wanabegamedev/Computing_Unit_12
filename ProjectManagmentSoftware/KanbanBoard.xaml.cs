@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,11 +14,26 @@ namespace ProjectManagmentSoftware
     /// </summary>
     public partial class KanbanBoard : Window
     {
-
+        
         Button buttonBeingDragged;
 
         int toDoRowCount = 0;
 
+
+        //handles sending the application to tray
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            // setting cancel to true will cancel the close request
+            // so the application is not closed
+
+            TrayHandler.CreateNotifyIcon();
+            TrayHandler.GetWindow(this);
+            e.Cancel = true;
+
+            Hide();
+
+
+        }
 
 
         public KanbanBoard()

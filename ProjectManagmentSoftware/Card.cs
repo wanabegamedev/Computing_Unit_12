@@ -12,6 +12,7 @@ namespace ProjectManagmentSoftware
         DateTime cardEndDate;
         State currentState;
         int cardIndex;
+        bool notificationEnabled;
 
 
         //change from sudo code to add a card index of position in state
@@ -88,6 +89,15 @@ namespace ProjectManagmentSoftware
             return cardStartDate;
         }
 
+        public bool GetNotificationEnabled()
+        {
+            return notificationEnabled;
+        }
+
+        public void SetNotificationEnabled(bool enabled)
+        {
+            notificationEnabled = enabled;
+        }
 
     }
 }

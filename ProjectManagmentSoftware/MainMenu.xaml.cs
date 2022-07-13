@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace ProjectManagmentSoftware
 {
@@ -19,12 +21,30 @@ namespace ProjectManagmentSoftware
     /// </summary>
     public partial class MainMenu : Window
     {
+
         
+
+        // Minimize to system tray when application is closed.
         
-    
+
         public MainMenu()
         {
             InitializeComponent();
+            
+        }
+        //handles sending the application to tray
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            // setting cancel to true will cancel the close request
+            // so the application is not closed
+
+            TrayHandler.CreateNotifyIcon();
+            TrayHandler.GetWindow(this);
+            e.Cancel = true;
+
+            Hide();
+
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -76,16 +96,11 @@ namespace ProjectManagmentSoftware
         {
             if (projectStartDateTextBox.SelectedDate < DateTime.Today)
             {
-                MessageBox.Show("Error: date can not be less then today");
+                System.Windows.MessageBox.Show("Error: date can not be less then today");
                 projectStartDateTextBox.SelectedDate = DateTime.Today;
 
                 
             }
-
-            
-            
-
-
 
         }
 
@@ -93,7 +108,7 @@ namespace ProjectManagmentSoftware
         {
             if (projectEndDateTextBox.SelectedDate < projectStartDateTextBox.SelectedDate)
             {
-                MessageBox.Show("Error: date can not be less then start date");
+                System.Windows.MessageBox.Show("Error: date can not be less then start date");
                 projectEndDateTextBox.SelectedDate = projectStartDateTextBox.SelectedDate;
             }
             
@@ -101,7 +116,7 @@ namespace ProjectManagmentSoftware
 
 
 
-
+       
 
 
         //VAR projectName

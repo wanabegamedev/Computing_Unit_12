@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,20 @@ namespace ProjectManagmentSoftware
         }
 
 
-        
+        //handles sending the application to tray
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            // setting cancel to true will cancel the close request
+            // so the application is not closed
+
+            TrayHandler.CreateNotifyIcon();
+            TrayHandler.GetWindow(this);
+            e.Cancel = true;
+
+            Hide();
+
+
+        }
 
 
         private void CreateCardButton_Click(object sender, RoutedEventArgs e)
