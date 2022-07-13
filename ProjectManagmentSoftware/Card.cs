@@ -16,12 +16,13 @@ namespace ProjectManagmentSoftware
 
 
         //change from sudo code to add a card index of position in state
-        public Card(string cardTitle, DateTime cardStartDate, DateTime cardEndDate, string cardDescription)
+        public Card(string cardTitle, DateTime cardStartDate, DateTime cardEndDate, string cardDescription, bool notificationEnabled)
         {
             this.cardTitle = cardTitle;
             this.cardStartDate = cardStartDate;
             this.cardEndDate = cardEndDate;
             this.cardDescription = cardDescription;
+            this.notificationEnabled = notificationEnabled;
 
             
         }

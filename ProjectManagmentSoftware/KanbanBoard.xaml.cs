@@ -21,16 +21,25 @@ namespace ProjectManagmentSoftware
 
 
         //handles sending the application to tray
+        bool exitButtonClose;
         protected override void OnClosing(CancelEventArgs e)
         {
-            // setting cancel to true will cancel the close request
-            // so the application is not closed
+            exitButtonClose = true;
+            if (exitButtonClose)
+            {
 
-            TrayHandler.CreateNotifyIcon();
-            TrayHandler.GetWindow(this);
-            e.Cancel = true;
+                // setting cancel to true will cancel the close request
+                // so the application is not closed
 
-            Hide();
+                TrayHandler.CreateNotifyIcon();
+                TrayHandler.GetWindow(this);
+                e.Cancel = true;
+
+                Hide();
+
+                //need to add exit button to timeline view
+            }
+
 
 
         }
@@ -40,6 +49,9 @@ namespace ProjectManagmentSoftware
         {
             InitializeComponent();
             Kanban_Grid.AllowDrop = true;
+          var tempNotification = new Notification();
+            tempNotification.NotificationLoop();
+            
 
         }
 

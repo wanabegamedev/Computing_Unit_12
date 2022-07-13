@@ -17,39 +17,45 @@ namespace ProjectManagmentSoftware
          string title;
          string message;        
 
-        Notification(string title, string message)
-        {
-            this.title = title;
-            this.message = message;
-        }
+        
 
-        public async void notificationLoop()
+        public async Task NotificationLoop()
         {
 
-            
+            await Task.Delay(3000);
 
             foreach (Card card in Project.cards)
             {
                 int daysTillEndDate = (DateTime.Today - card.GetEndDate()).Days;
-                if (card.GetNotificationEnabled() == true & daysTillEndDate == 1)
+                if (card.GetNotificationEnabled() == true)
                 {
-                   
+                    
+                    NewNotification(card);
                 }
             }
-            
-            
+
+
+            NotificationLoop();
            
             
         }
        
-        void NewNotification()
+        void NewNotification(Card card)
         {
-            new ToastContentBuilder()
+            title = card.GetTitle() + " is about to expire on " + card.GetEndDate().Date.ToString();
+            new ToastContentBuilder() 
+                .AddButton(new ToastButton()
+                .SetContent("delay")
+                .AddArgument("action", "delay")
+                .SetBackgroundActivation())
             .AddText(title).AddText(message).Show();
-            SystemSounds.Exclamation.Play();
-            notificationLoop();
+            SystemSounds.Exclamation.Play();      
+            
+            
 
         }
+        
+       
     }
 
    

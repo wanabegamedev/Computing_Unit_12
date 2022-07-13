@@ -22,7 +22,6 @@ namespace ProjectManagmentSoftware
     public partial class MainMenu : Window
     {
 
-        
 
         // Minimize to system tray when application is closed.
         
@@ -33,16 +32,23 @@ namespace ProjectManagmentSoftware
             
         }
         //handles sending the application to tray
+        bool exitButtonClose;
         protected override void OnClosing(CancelEventArgs e)
         {
-            // setting cancel to true will cancel the close request
-            // so the application is not closed
 
-            TrayHandler.CreateNotifyIcon();
-            TrayHandler.GetWindow(this);
-            e.Cancel = true;
+            if (exitButtonClose)
+            {
 
-            Hide();
+                // setting cancel to true will cancel the close request
+                // so the application is not closed
+
+                TrayHandler.CreateNotifyIcon();
+                TrayHandler.GetWindow(this);
+                e.Cancel = true;
+
+                Hide();
+            }
+           
 
 
         }
@@ -61,7 +67,7 @@ namespace ProjectManagmentSoftware
 
             
 
-
+            exitButtonClose = false;
             LoadProject();
             CloseMainMenu();
 

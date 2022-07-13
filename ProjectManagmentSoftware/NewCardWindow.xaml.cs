@@ -44,20 +44,7 @@ namespace ProjectManagmentSoftware
         }
 
 
-        //handles sending the application to tray
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            // setting cancel to true will cancel the close request
-            // so the application is not closed
-
-            TrayHandler.CreateNotifyIcon();
-            TrayHandler.GetWindow(this);
-            e.Cancel = true;
-
-            Hide();
-
-
-        }
+      
 
 
         private void CreateCardButton_Click(object sender, RoutedEventArgs e)
@@ -77,7 +64,7 @@ namespace ProjectManagmentSoftware
 
 
 
-            var newCard = new Card(TitleInputBox.Text, Convert.ToDateTime(StartDatePicker.SelectedDate), Convert.ToDateTime(EndDatePicker.SelectedDate), tempDescription);
+            var newCard = new Card(TitleInputBox.Text, Convert.ToDateTime(StartDatePicker.SelectedDate), Convert.ToDateTime(EndDatePicker.SelectedDate), tempDescription, true);
             //adds card to project's card list
             Project.cards.Add(newCard);
             newCard.SetState(State.todo);
