@@ -37,7 +37,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
-    <PackageReference Include="ModernWpfUI" Version="0.9.5" />
+    <PackageReference Include="ModernWpfUI" Version="0.9.5">
+      <TreatAsUsed>true</TreatAsUsed>
+    </PackageReference>
     <PackageReference Include="System.Windows.Forms" Version="4.0.0" />
   </ItemGroup>
 

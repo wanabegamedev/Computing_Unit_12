@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 
 namespace ProjectManagmentSoftware
@@ -51,18 +52,26 @@ namespace ProjectManagmentSoftware
             Kanban_Grid.AllowDrop = true;
           var tempNotification = new Notification();
             tempNotification.NotificationLoop();
+            Project.currentBoard = this;
             
 
         }
 
 
 
-        public void LoadProjectDetails()
+         public void LoadProjectDetails()
         {
 
 
+            //added a reset to the toDoRowCount
+            toDoRowCount = 0;
             //sets window name to project name
             this.Title = Project.projectName;
+
+            //clears board for refreshing of states
+            Kanban_Grid.Children.Clear();
+            Kanban_Grid.RowDefinitions.Clear();
+            Kanban_Grid.ColumnDefinitions.Clear();
 
 
 
@@ -82,27 +91,112 @@ namespace ProjectManagmentSoftware
                 for (int i = 0; i < Project.cards.Count; i++)
                 {
 
-                    var tempRect = new Rectangle();
-                    tempRect.Width = 10;
-                    tempRect.Height = 5;
-                    tempRect.Fill = new SolidColorBrush(Colors.White);
-                    Grid.SetColumn(tempRect, i);
-                    Kanban_Grid.Children.Add(tempRect);
-                    //need to repalce with button code
+
+                        //only used one for statment to stop duplication of cards
+                        //added cards to Kanban_Grid children
 
 
-                    //need to make it so it can place card in the right state
+                    var tempButton = CreateNewButton();
+                    var inprogress = CreateNewButton();
+                    var finished = CreateNewButton();
+
+
+                    switch (Convert.ToInt32(Project.cards[i].GetState()))
+                    {
+
+                        case 0:
+                            tempButton.Tag = Project.cards[i];
+                            Grid.SetColumn(tempButton, Convert.ToInt32(Project.cards[i].GetState()));
+                            tempButton.Content = Project.cards[i].GetTitle();
+                            Kanban_Grid.Children.Add(tempButton);
+                            Grid.SetRow(tempButton, toDoRowCount);
+                            inprogress.Content = "";
+                            finished.Content = "";
+                            Grid.SetColumn(inprogress, 1);
+                            Grid.SetColumn(finished, 2);
+                            Grid.SetRow(tempButton, toDoRowCount);
+                            Grid.SetRow(inprogress, toDoRowCount);
+                            Grid.SetRow(finished, toDoRowCount);
+                            Kanban_Grid.Children.Add(inprogress);
+                            Kanban_Grid.Children.Add(finished);
+
+
+
+
+
+                            break;
+                        case 1:
+
+                            tempButton.Tag = Project.cards[i];
+                            Grid.SetColumn(tempButton, Convert.ToInt32(Project.cards[i].GetState()));
+                            Kanban_Grid.Children.Add(tempButton);
+                            tempButton.Content = Project.cards[i].GetTitle();
+                            Grid.SetRow(tempButton, toDoRowCount);
+                            inprogress = CreateNewButton();
+                            finished = CreateNewButton();
+                            inprogress.Content = "";
+                            finished.Content = "";
+                            Grid.SetColumn(inprogress, 0);
+                            Grid.SetColumn(finished, 2);
+                            Grid.SetRow(inprogress, toDoRowCount);
+                            Grid.SetRow(finished, toDoRowCount);
+                            Kanban_Grid.Children.Add(inprogress);
+                            Kanban_Grid.Children.Add(finished);
+
+                            break;
+                        case 2:
+                            tempButton.Tag = Project.cards[i];
+                            Grid.SetColumn(tempButton, Convert.ToInt32(Project.cards[i].GetState()));
+                            Grid.SetRow(tempButton, toDoRowCount);
+                            tempButton.Content = Project.cards[i].GetTitle();
+                            Kanban_Grid.Children.Add(tempButton);
+                            inprogress = CreateNewButton();
+                            finished = CreateNewButton();
+                            inprogress.Content = "";
+                            finished.Content = "";
+                            Grid.SetColumn(inprogress, 0);
+                            Grid.SetColumn(finished, 1);
+                            Grid.SetRow(inprogress, toDoRowCount);
+                            Grid.SetRow(finished, toDoRowCount);
+                            Kanban_Grid.Children.Add(inprogress);
+                            Kanban_Grid.Children.Add(finished);
+                                
+
+
+                            break;
+                    }
+
+
+                        
+                    
+
+                    RowDefinition newRow = new RowDefinition();
+
+                    newRow.Height = new GridLength(70);
+
+                    Kanban_Grid.RowDefinitions.Add(newRow);
+                    toDoRowCount += 1;
+
+
+
+
+
 
 
 
                 }
 
+                
+                
             }
 
 
 
 
         }
+
+
+        
         //create visual representation of card
         public void CreateVisualCard()
         {
@@ -143,12 +237,16 @@ namespace ProjectManagmentSoftware
 
             newRow.Height = new GridLength(70);
 
+
             Kanban_Grid.RowDefinitions.Add(newRow);
             toDoRowCount += 1;
 
 
         }
 
+
+
+        
 
         void CardDoubleClick(object sender, RoutedEventArgs e)
         {
@@ -228,7 +326,31 @@ namespace ProjectManagmentSoftware
         }
 
 
+        public void ReloadProjectDetails()
+        {
+            Application.Current.Dispatcher.Invoke(LoadProjectDetails);
 
+        }
+
+        Button CreateNewButton()
+        {
+            var newButton = new Button();
+            newButton.HorizontalAlignment = HorizontalAlignment.Center;
+
+            newButton.Width = 60;
+            newButton.Height = 40;
+            newButton.PreviewMouseDown += DragIt;
+            newButton.Drop += DropIt;
+            newButton.AllowDrop = true;
+                
+            return newButton;
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoadProjectDetails();
+        }
     }
 
 }

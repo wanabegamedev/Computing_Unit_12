@@ -40,6 +40,7 @@
         </ScrollViewer>
 
         <Button x:Name="LoadCreateCardWindow" Content="Create New Card" Click="LoadCreateCardWindow_Click" Background="Green" Height="30" Width="132" Margin="10,0,0,0" Panel.ZIndex="1" Grid.Row="1"/>
+        <Button Content="Button" Margin="172,1,0,0" Grid.Row="1" VerticalAlignment="Top" Click="Button_Click"/>
 
 
     </Grid>

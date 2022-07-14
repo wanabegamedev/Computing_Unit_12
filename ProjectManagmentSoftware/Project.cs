@@ -9,6 +9,7 @@ namespace ProjectManagmentSoftware
         static public DateTime startDate;
         static public DateTime endDate;
         static public List<Card> cards = new List<Card>();
+        static public KanbanBoard currentBoard;
 
         //public Project(string projectName, DateTime startDate, DateTime endDate)
         //{
