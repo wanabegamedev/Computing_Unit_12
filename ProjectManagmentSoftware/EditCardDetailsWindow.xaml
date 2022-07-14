@@ -18,5 +18,6 @@
         <DatePicker x:Name="EndDatePicker" Margin="278,184,0,0" VerticalAlignment="Top"/>
         <Label Content="End Date" HorizontalAlignment="Left" Margin="311,165,0,0" VerticalAlignment="Top"/>
         <Button Content="Save Changes" Height="61" Margin="217,363,0,0" VerticalAlignment="Top" Width="270" Click="Button_Click"/>
+        <CheckBox x:Name="NotificationEnabledCheck" Content="Notification Reminder" Margin="257,239,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

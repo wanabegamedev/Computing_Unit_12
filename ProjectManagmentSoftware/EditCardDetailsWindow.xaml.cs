@@ -38,21 +38,37 @@ namespace ProjectManagmentSoftware
             StartDatePicker.DisplayDateEnd = Project.endDate;
             EndDatePicker.DisplayDateStart = Project.startDate;
             EndDatePicker.DisplayDateEnd = Project.endDate;
+            
 
         
             TitleTextBox.Text = selectedCard.GetTitle();
             DescriptionTextBox.Text = selectedCard.GetDescription();
             StartDatePicker.SelectedDate = selectedCard.GetStartDate();
             EndDatePicker.SelectedDate = selectedCard.GetEndDate();
-            
+            NotificationEnabledCheck.IsChecked = selectedCard.GetNotificationEnabled();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+
+            //used to check the state of the tickbox
+            bool tempNotificationChecked;
+            if (NotificationEnabledCheck.IsChecked == true)
+            {
+                tempNotificationChecked = true;
+            }
+            else
+            {
+                tempNotificationChecked = false;
+            }
+
             selectedCard.SetTitle(TitleTextBox.Text);
             selectedCard.SetDescription(DescriptionTextBox.Text);
             selectedCard.SetStartDate(Convert.ToDateTime(StartDatePicker.Text));
             selectedCard.SetEndDate(Convert.ToDateTime(EndDatePicker.Text));
+            selectedCard.SetNotificationEnabled(tempNotificationChecked);
 
             selectedButton.Content = selectedCard.GetTitle();
 

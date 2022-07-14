@@ -18,6 +18,7 @@
         <Button x:Name="CreateCardButton" Content="Button" Height="67" Margin="131,285,0,0" VerticalAlignment="Top" Width="227" Click="CreateCardButton_Click"/>
         <TextBox x:Name="Description_InputBox" HorizontalAlignment="Left" Height="93" Margin="136,187,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="216"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148"><Run Text="Description ("/><Run Language="en-gb" Text="O"/><Run Text="ptional"/><Run Language="en-gb" Text=")"/></TextBlock>
+        <CheckBox x:Name="NotificationEnabledCheck" Content="Notification Reminder" Margin="368,215,0,0" VerticalAlignment="Top"/>
 
 
 

@@ -39,6 +39,7 @@ namespace ProjectManagmentSoftware
             StartDatePicker.DisplayDateEnd = Project.endDate;
             EndDatePicker.DisplayDateStart = Project.startDate;
             EndDatePicker.DisplayDateEnd = Project.endDate;
+           
             
             
         }
@@ -50,6 +51,7 @@ namespace ProjectManagmentSoftware
         private void CreateCardButton_Click(object sender, RoutedEventArgs e)
         {
             string tempDescription;
+            bool tempNotificationCheck;
 
 
             //checks if description is null, if so sets tempDescription to an empty string
@@ -62,9 +64,20 @@ namespace ProjectManagmentSoftware
                 tempDescription = Description_InputBox.Text;
             }
 
+            //used to check the state of the tick box
+            if (NotificationEnabledCheck.IsChecked == true)
+            {
+                tempNotificationCheck = true;
+
+            }
+            else
+            {
+                tempNotificationCheck = false;
+            }
 
 
-            var newCard = new Card(TitleInputBox.Text, Convert.ToDateTime(StartDatePicker.SelectedDate), Convert.ToDateTime(EndDatePicker.SelectedDate), tempDescription, true);
+
+            var newCard = new Card(TitleInputBox.Text, Convert.ToDateTime(StartDatePicker.SelectedDate), Convert.ToDateTime(EndDatePicker.SelectedDate), tempDescription, tempNotificationCheck);
             //adds card to project's card list
             Project.cards.Add(newCard);
             newCard.SetState(State.todo);
