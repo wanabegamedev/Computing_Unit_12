@@ -33,15 +33,25 @@ namespace ProjectManagmentSoftware
 
             foreach (Card card in Project.cards)
             {
-
                 //added check to make sure state is not set to done
                 int daysTillEndDate = (DateTime.Today - card.GetEndDate()).Days;
-                if (card.GetNotificationEnabled() == true && card.GetState() != State.done)
+                int daysTillStartDate = ( card.GetStartDate() - DateTime.Today).Days;
+
+                if (card.GetNotificationEnabled() == true && card.GetState() != State.done & daysTillEndDate == 1)
                 {
                     currentCard = card;
-                    NewNotification();
+                    EndDateNotification();
                    
                 }
+                if (card.GetNotificationEnabled() == true && card.GetState() != State.done & daysTillStartDate == 1)
+                {
+                    currentCard = card;
+                    StartDateNotification();
+                }
+
+
+
+
             }
 
 
@@ -50,10 +60,10 @@ namespace ProjectManagmentSoftware
             
         }
        
-        void NewNotification()
+        void EndDateNotification()
         {
 
-            title = currentCard.GetTitle() + " is about to expire on " + currentCard.GetEndDate().Date.ToString();
+            title = currentCard.GetTitle() + " is about to expire on " + currentCard.GetEndDate().ToString();
             new ToastContentBuilder()
                 .AddButton(new ToastButton()
                 .SetContent("delay")
@@ -70,6 +80,15 @@ namespace ProjectManagmentSoftware
             
             
 
+        }
+
+
+        void StartDateNotification()
+        {
+            title = currentCard.GetTitle() + " is to start on " + currentCard.GetStartDate().Date.ToString();
+            new ToastContentBuilder()
+            .AddText(title).AddText(message).Show();
+         
         }
 
         private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
