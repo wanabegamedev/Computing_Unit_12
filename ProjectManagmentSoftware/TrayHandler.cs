@@ -36,6 +36,8 @@ namespace ProjectManagmentSoftware
 
         }
 
+
+        //opens program and destroys tray icon
         public static void OnTrayClick(object sender, EventArgs e)
         {
 

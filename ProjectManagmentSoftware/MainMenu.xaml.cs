@@ -59,7 +59,7 @@ namespace ProjectManagmentSoftware
 
 
 
-
+            //sets project variables
             Project.projectName = ProjectNameTextBox.Text;
             Project.startDate = Convert.ToDateTime(projectStartDateTextBox.Text);
             Project.endDate = Convert.ToDateTime(projectEndDateTextBox.Text);
@@ -92,12 +92,16 @@ namespace ProjectManagmentSoftware
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //selects today's date as the default date in the date pickers
             projectStartDateTextBox.SelectedDate = DateTime.Today;
             projectEndDateTextBox.SelectedDate= DateTime.Today;
+           
 
             
         }
 
+
+        //validation for the date pickers
         private void projectStartDateTextBox_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (projectStartDateTextBox.SelectedDate < DateTime.Today)
@@ -119,43 +123,6 @@ namespace ProjectManagmentSoftware
             }
             
         }
-
-
-
-       
-
-
-        //VAR projectName
-        //VAR startDate
-        //VAR endDate
-
-        //projectName = projectNameTextBox
-        //startDate = projectStartDateTextBox
-        //endDate = projectEndDateTextBox
-        //IF startDate !< CurrentDay THEN
-        //startDate = projectStartDateTextBox
-        //ELSE
-        //PRINT “Error Date is invalid please re enter the date”
-        //RETURN
-        //IF startDate !> endDate AND startDate != endDate THEN
-        //startDate = projectStartDateTextBox
-        //ELSE
-        //PRINT “Error Date is invalid please re enter the date”
-        //RETURN
-
-        //IF endDate !< startDate AND endDate != startDate THEN
-        //endDate = projectEndDateTextBox
-        //ELSE
-        //PRINT “Error Date is invalid please re enter the date”
-        //RETURN
-
-        //Copy name from projectName to the new projects name field
-        //Copy start date from startDate to the new projects startDate field
-        //Copy end date from endDate to the new projects endDate field
-
-
-        //Open Kanban view window
-        //Close main menu
 
 
     }

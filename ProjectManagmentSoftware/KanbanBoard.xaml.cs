@@ -3,9 +3,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 
 namespace ProjectManagmentSoftware
@@ -15,7 +12,7 @@ namespace ProjectManagmentSoftware
     /// </summary>
     public partial class KanbanBoard : Window
     {
-        
+
         Button buttonBeingDragged;
 
         int toDoRowCount = 0;
@@ -50,16 +47,16 @@ namespace ProjectManagmentSoftware
         {
             InitializeComponent();
             Kanban_Grid.AllowDrop = true;
-          var tempNotification = new Notification();
+            var tempNotification = new Notification();
             tempNotification.NotificationLoop();
             Project.currentBoard = this;
-            
+
 
         }
 
 
 
-         public void LoadProjectDetails()
+        public void LoadProjectDetails()
         {
 
 
@@ -78,7 +75,7 @@ namespace ProjectManagmentSoftware
             //creates column headers
             for (int i = 0; i < 3; i++)
             {
-                Kanban_Grid.ColumnDefinitions.Add(new ColumnDefinition());              
+                Kanban_Grid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
 
@@ -92,8 +89,8 @@ namespace ProjectManagmentSoftware
                 {
 
 
-                        //only used one for statment to stop duplication of cards
-                        //added cards to Kanban_Grid children
+                    //only used one for statment to stop duplication of cards
+                    //added cards to Kanban_Grid children
 
 
                     var tempButton = CreateNewButton();
@@ -103,6 +100,7 @@ namespace ProjectManagmentSoftware
 
                     switch (Convert.ToInt32(Project.cards[i].GetState()))
                     {
+                        //creates data cards and two empty cards depending on position
 
                         case 0:
                             tempButton.Tag = Project.cards[i];
@@ -160,43 +158,33 @@ namespace ProjectManagmentSoftware
                             Grid.SetRow(finished, toDoRowCount);
                             Kanban_Grid.Children.Add(inprogress);
                             Kanban_Grid.Children.Add(finished);
-                                
+
 
 
                             break;
                     }
 
 
-                        
-                    
 
+
+
+                    //creates new row
                     RowDefinition newRow = new RowDefinition();
-
+                    //adds distance between the rows
                     newRow.Height = new GridLength(70);
 
                     Kanban_Grid.RowDefinitions.Add(newRow);
                     toDoRowCount += 1;
 
-
-
-
-
-
-
-
                 }
 
-                
-                
+
             }
-
-
-
 
         }
 
 
-        
+
         //create visual representation of card
         public void CreateVisualCard()
         {
@@ -245,9 +233,6 @@ namespace ProjectManagmentSoftware
         }
 
 
-
-        
-
         void CardDoubleClick(object sender, RoutedEventArgs e)
         {
 
@@ -291,6 +276,7 @@ namespace ProjectManagmentSoftware
 
             Card buttonCard = selectedButton.Tag as Card;
 
+            //checks which column the card is in and sets the coresponding state
             switch (Grid.GetColumn(selectedButton))
             {
                 default:
@@ -326,12 +312,15 @@ namespace ProjectManagmentSoftware
         }
 
 
+        //reloads project details on current thead
         public void ReloadProjectDetails()
         {
             Application.Current.Dispatcher.Invoke(LoadProjectDetails);
 
         }
 
+
+        //creates and returns a new button
         Button CreateNewButton()
         {
             var newButton = new Button();
@@ -342,9 +331,9 @@ namespace ProjectManagmentSoftware
             newButton.PreviewMouseDown += DragIt;
             newButton.Drop += DropIt;
             newButton.AllowDrop = true;
-                
+
             return newButton;
-            
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

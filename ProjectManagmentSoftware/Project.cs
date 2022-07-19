@@ -11,14 +11,6 @@ namespace ProjectManagmentSoftware
         static public List<Card> cards = new List<Card>();
         static public KanbanBoard currentBoard;
 
-        //public Project(string projectName, DateTime startDate, DateTime endDate)
-        //{
-        //    this.projectName = projectName;
-        //    this.startDate = startDate;
-        //    this.endDate = endDate;
-
-        //}
-
 
     }
 }

@@ -40,7 +40,7 @@ namespace ProjectManagmentSoftware
             EndDatePicker.DisplayDateEnd = Project.endDate;
             
 
-        
+            //loads card details
             TitleTextBox.Text = selectedCard.GetTitle();
             DescriptionTextBox.Text = selectedCard.GetDescription();
             StartDatePicker.SelectedDate = selectedCard.GetStartDate();
@@ -64,6 +64,8 @@ namespace ProjectManagmentSoftware
                 tempNotificationChecked = false;
             }
 
+
+            //updates card's details
             selectedCard.SetTitle(TitleTextBox.Text);
             selectedCard.SetDescription(DescriptionTextBox.Text);
             selectedCard.SetStartDate(Convert.ToDateTime(StartDatePicker.Text));
