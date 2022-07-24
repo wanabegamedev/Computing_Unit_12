@@ -18,7 +18,6 @@ namespace ProjectManagmentSoftware
     {
         
          string title;
-         string message;
         Card currentCard;
 
         
@@ -73,8 +72,7 @@ namespace ProjectManagmentSoftware
                 .SetContent("mark as done")
                 .AddArgument("action", "complete")
                 .SetBackgroundActivation())
-            .AddText(title).AddText(message).Show();
-            //SystemSounds.Exclamation.Play();
+            .AddText(title).Show();
 
             ToastNotificationManagerCompat.OnActivated += ToastNotificationManagerCompat_OnActivated;
             
@@ -87,7 +85,7 @@ namespace ProjectManagmentSoftware
         {
             title = currentCard.GetTitle() + " is to start on " + currentCard.GetStartDate().Date.ToString();
             new ToastContentBuilder()
-            .AddText(title).AddText(message).Show();
+            .AddText(title).Show();
          
         }
 

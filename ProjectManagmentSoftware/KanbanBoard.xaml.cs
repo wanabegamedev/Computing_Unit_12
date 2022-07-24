@@ -340,6 +340,12 @@ namespace ProjectManagmentSoftware
         {
             LoadProjectDetails();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var TimelineWindow = new Timeline();
+            TimelineWindow.Show();
+        }
     }
 
 }
