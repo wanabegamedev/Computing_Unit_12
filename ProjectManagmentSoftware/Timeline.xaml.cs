@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace ProjectManagmentSoftware
@@ -19,6 +11,7 @@ namespace ProjectManagmentSoftware
     /// </summary>
     public partial class Timeline : Window
     {
+        int nextRowIndex = 0;
         public Timeline()
         {
             InitializeComponent();
@@ -32,63 +25,129 @@ namespace ProjectManagmentSoftware
         {
             int numOfDays = 0;
             numOfDays = (Project.endDate - Project.startDate).Days;
+            numOfDays++;
             return numOfDays;
         }
 
         public void LoadGrid(int days)
         {
+            //PrimaryScreenWidth returns the monitor width
+            int distance = (int)SystemParameters.PrimaryScreenWidth / days;
+
+            //creates first line at left corner of screen
+            CreateLine(0, 0);
+           
 
             for (int i = 0; i < days; i++)
             {
 
-                
+                //gets the curren date for the column
+                DateTime currentDate = Project.startDate.AddDays(i);
 
-                int distance = (int)SystemParameters.PrimaryScreenWidth / days;
 
 
 
                 var tempColum = new ColumnDefinition();
+                //sets column's tag to the date being loaded
+                tempColum.Tag = currentDate;
                 tempColum.Width = new GridLength(distance);
 
 
 
                 TimelineGrid.ColumnDefinitions.Add(tempColum);
                 CreateLine(i, distance);
-                CreateHeader(i);
+                CreateHeader(i, currentDate);
 
             }
 
 
+            //cycles through all the cards and makes visual representations of them
+            foreach (Card card in Project.cards)
+            {
+                CreateNewBar(card);
+            }
 
-            NewButton();
+
+
+
 
 
 
         }
 
-        void NewButton()
+
+        void CreateNewBar(Card card)
         {
-            var tempButton = new Button();
-            tempButton.Height = 20;
-            tempButton.Width = 2000;
-            TimelineGrid.Children.Add(tempButton);
-            Grid.SetColumn(tempButton, 0);
-            Grid.SetColumnSpan(tempButton, 4);
+            //holds the column numbers for the start and end colums
+            int startColumn = 0;
+            int endColumn = 0;
+
+            var tempLabel = new Label();
+
+            tempLabel.Tag = card;
+            tempLabel.Content = card.GetTitle();
+
+            tempLabel.Background = Brushes.Teal;
+
+            tempLabel.Width = SystemParameters.PrimaryScreenWidth;
+            tempLabel.Height = 20;
+
+           
+
+
+            //cycles through the columns and compares the start and end dates to the columns tag
+            foreach (ColumnDefinition column in TimelineGrid.ColumnDefinitions)
+            {
+               
+                if ((DateTime)column.Tag == card.GetStartDate())
+                {
+                    startColumn = TimelineGrid.ColumnDefinitions.IndexOf(column);
+                }
+
+                if ((DateTime)column.Tag == card.GetEndDate())
+                {
+                    endColumn = TimelineGrid.ColumnDefinitions.IndexOf(column);
+                }
+            }
+
+            TimelineGrid.Children.Add(tempLabel);
+            
+            Grid.SetColumn(tempLabel, startColumn);
+
+            //sets span of the label, this represents the days
+            Grid.SetColumnSpan(tempLabel, endColumn + 1);
+            Grid.SetRow(tempLabel, nextRowIndex);
+
+
+            TimelineGrid.RowDefinitions.Add(new RowDefinition());
+
+            //adds one to the nextRowIndex
+            nextRowIndex++;
+
+            
+            RedrawGridLines();
+
+
+
+
         }
 
 
         void CreateLine(int lineCount, float lineDistance)
         {
             var tempLine = new Line();
-            Grid.SetColumn(tempLine, lineCount);
             tempLine.StrokeThickness = 5;
             tempLine.Stroke = Brushes.Black;
 
-
+            //sets x and y position of line
             tempLine.X1 = lineDistance;
-            tempLine.X2 = lineDistance; 
+            tempLine.X2 = lineDistance;
             tempLine.Y1 = 0;
-            tempLine.Y2 = 10000;
+            tempLine.Y2 = SystemParameters.PrimaryScreenHeight;
+
+        
+            Grid.SetColumn(tempLine, lineCount);
+
 
             TimelineGrid.Children.Add(tempLine);
 
@@ -100,20 +159,70 @@ namespace ProjectManagmentSoftware
 
         }
 
-        void CreateHeader(int headerCount)
+        void CreateHeader(int headerCount, DateTime date)
         {
             var tempLabel = new Label();
             tempLabel.Height = 20;
-            tempLabel.Width = 20;
-            tempLabel.Content = "test";
+            tempLabel.Width = 25;
+            tempLabel.Content = date.ToString();
+            //sets tag to the date its column is
             tempLabel.FontSize = 10;
             tempLabel.Foreground = Brushes.Black;
 
             TimelineGrid.Children.Add(tempLabel);
             Grid.SetColumn(tempLabel, headerCount);
+
+            //sets alignment
             tempLabel.VerticalAlignment = VerticalAlignment.Top;
             tempLabel.HorizontalAlignment = HorizontalAlignment.Center;
         }
+
+
+
+
+       
+
+        //not that optimized and should probably delete all lines first
+        void RedrawGridLines()
+        {
+
+            int distance = (int)SystemParameters.PrimaryScreenWidth / CalculateDays();
+
+            //cycles through each row and column re drawing lines when a visual bar is added
+            foreach (RowDefinition rowDefinition in TimelineGrid.RowDefinitions)
+            {
+
+                foreach (ColumnDefinition columnDefinition in TimelineGrid.ColumnDefinitions)
+                {
+                    var tempLine = new Line();
+                    tempLine.StrokeThickness = 5;
+                    tempLine.Stroke = Brushes.Black;
+
+                    //sets x and y position of line
+                    tempLine.X1 = distance;
+                    tempLine.X2 = distance;
+                    tempLine.Y1 = 0;
+                    tempLine.Y2 = SystemParameters.PrimaryScreenHeight;
+
+
+                    Grid.SetColumn(tempLine, TimelineGrid.ColumnDefinitions.IndexOf(columnDefinition));
+                    Grid.SetRow(tempLine, TimelineGrid.RowDefinitions.IndexOf(rowDefinition));
+
+
+                    TimelineGrid.Children.Add(tempLine);
+                }
+                
+                
+                
+                
+            }
+
+        }
+
+
+
+
+        
     }
 }
 

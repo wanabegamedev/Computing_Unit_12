@@ -87,7 +87,7 @@ namespace ProjectManagmentSoftware
 
         public DateTime GetEndDate()
         {
-            return cardStartDate;
+            return cardEndDate;
         }
 
         public bool GetNotificationEnabled()
