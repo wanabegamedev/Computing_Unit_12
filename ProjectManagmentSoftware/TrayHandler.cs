@@ -22,9 +22,11 @@ namespace ProjectManagmentSoftware
 
         static Window currentWindow;
 
+
+        //creates try icon
         public static NotifyIcon CreateNotifyIcon()
         {
-            notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon = new NotifyIcon();
             notifyIcon.Text = "hi";
             notifyIcon.BalloonTipText = "hi";
             notifyIcon.Icon = new System.Drawing.Icon("Icon.ico");

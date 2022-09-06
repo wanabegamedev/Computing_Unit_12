@@ -15,6 +15,7 @@ namespace ProjectManagmentSoftware
 
         Button buttonBeingDragged;
 
+        //handles how many rows are in the kanban board
         int toDoRowCount = 0;
 
 
@@ -91,7 +92,6 @@ namespace ProjectManagmentSoftware
 
                     //only used one for statment to stop duplication of cards
                     //added cards to Kanban_Grid children
-
 
                     var tempButton = CreateNewButton();
                     var inprogress = CreateNewButton();
@@ -326,6 +326,7 @@ namespace ProjectManagmentSoftware
             var newButton = new Button();
             newButton.HorizontalAlignment = HorizontalAlignment.Center;
 
+            //sets button properties
             newButton.Width = 60;
             newButton.Height = 40;
             newButton.PreviewMouseDown += DragIt;
