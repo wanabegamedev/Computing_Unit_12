@@ -78,7 +78,6 @@ namespace ProjectManagmentSoftware
 
         public void LoadProject()
         {
-
             var kanbanBoard = new KanbanBoard();
             kanbanBoard.Show();
             kanbanBoard.LoadProjectDetails();
@@ -95,7 +94,7 @@ namespace ProjectManagmentSoftware
         {
             //selects today's date as the default date in the date pickers
             projectStartDateTextBox.SelectedDate = DateTime.Today;
-            projectEndDateTextBox.SelectedDate = DateTime.Today;
+            projectEndDateTextBox.SelectedDate= DateTime.Today;
            
 
             

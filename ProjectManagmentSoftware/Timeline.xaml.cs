@@ -34,8 +34,8 @@ namespace ProjectManagmentSoftware
             //PrimaryScreenWidth returns the monitor width
             int distance = (int)SystemParameters.PrimaryScreenWidth / days;
 
-         
-            
+            //creates first line at left corner of screen
+            CreateLine(0, 0);
            
 
             for (int i = 0; i < days; i++)
@@ -55,7 +55,7 @@ namespace ProjectManagmentSoftware
 
 
                 TimelineGrid.ColumnDefinitions.Add(tempColum);
-                DrawGridLines();
+                CreateLine(i, distance);
                 CreateHeader(i, currentDate);
 
             }
@@ -85,7 +85,6 @@ namespace ProjectManagmentSoftware
             var tempLabel = new Label();
 
             tempLabel.Tag = card;
-
             tempLabel.Content = card.GetTitle();
 
             tempLabel.Background = Brushes.Teal;
@@ -126,7 +125,7 @@ namespace ProjectManagmentSoftware
             nextRowIndex++;
 
             
-            DrawGridLines();
+            RedrawGridLines();
 
 
 
@@ -134,7 +133,32 @@ namespace ProjectManagmentSoftware
         }
 
 
+        void CreateLine(int lineCount, float lineDistance)
+        {
+            var tempLine = new Line();
+            tempLine.StrokeThickness = 5;
+            tempLine.Stroke = Brushes.Black;
+
+            //sets x and y position of line
+            tempLine.X1 = lineDistance;
+            tempLine.X2 = lineDistance;
+            tempLine.Y1 = 0;
+            tempLine.Y2 = SystemParameters.PrimaryScreenHeight;
+
         
+            Grid.SetColumn(tempLine, lineCount);
+
+
+            TimelineGrid.Children.Add(tempLine);
+
+
+
+
+
+
+
+        }
+
         void CreateHeader(int headerCount, DateTime date)
         {
             var tempLabel = new Label();
@@ -159,7 +183,7 @@ namespace ProjectManagmentSoftware
        
 
         //not that optimized and should probably delete all lines first
-        void DrawGridLines()
+        void RedrawGridLines()
         {
 
             int distance = (int)SystemParameters.PrimaryScreenWidth / CalculateDays();
@@ -167,15 +191,6 @@ namespace ProjectManagmentSoftware
             //cycles through each row and column re drawing lines when a visual bar is added
             foreach (RowDefinition rowDefinition in TimelineGrid.RowDefinitions)
             {
-                //creates the starting line for each row
-                var tempStartLine = new Line();
-                tempStartLine.StrokeThickness = 5;
-                tempStartLine.Stroke = Brushes.Black;
-                tempStartLine.X1 = 0;
-                tempStartLine.X2 = 0;
-                tempStartLine.Y1 = 0;
-                //may not be good if timeline is used on secondary monitor with diffrent screen hight
-                tempStartLine.Y2 = SystemParameters.PrimaryScreenHeight;
 
                 foreach (ColumnDefinition columnDefinition in TimelineGrid.ColumnDefinitions)
                 {
