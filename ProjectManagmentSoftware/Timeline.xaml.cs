@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -11,6 +12,12 @@ namespace ProjectManagmentSoftware
     /// </summary>
     public partial class Timeline : Window
     {
+
+
+        bool isDragging;
+
+        bool isOverMargin;
+
         int nextRowIndex = 0;
         public Timeline()
         {
@@ -18,6 +25,11 @@ namespace ProjectManagmentSoftware
 
 
             LoadGrid(CalculateDays());
+
+
+            TimelineGrid.PreviewMouseMove += ColumDragTest;
+
+
         }
 
 
@@ -36,7 +48,7 @@ namespace ProjectManagmentSoftware
 
             //creates first line at left corner of screen
             CreateLine(0, 0);
-           
+
 
             for (int i = 0; i < days; i++)
             {
@@ -51,6 +63,7 @@ namespace ProjectManagmentSoftware
                 //sets column's tag to the date being loaded
                 tempColum.Tag = currentDate;
                 tempColum.Width = new GridLength(distance);
+                
 
 
 
@@ -89,29 +102,44 @@ namespace ProjectManagmentSoftware
 
             tempLabel.Background = Brushes.Teal;
 
-            tempLabel.Width = SystemParameters.PrimaryScreenWidth;
+
             tempLabel.Height = 20;
 
-           
+
+            tempLabel.MouseMove += GetMousePos;
+            
 
 
             //cycles through the columns and compares the start and end dates to the columns tag
             foreach (ColumnDefinition column in TimelineGrid.ColumnDefinitions)
             {
-               
+
+
                 if ((DateTime)column.Tag == card.GetStartDate())
                 {
                     startColumn = TimelineGrid.ColumnDefinitions.IndexOf(column);
+
+
                 }
 
                 if ((DateTime)column.Tag == card.GetEndDate())
                 {
                     endColumn = TimelineGrid.ColumnDefinitions.IndexOf(column);
+                    
                 }
+
+
+
+                var days = (card.GetEndDate() - card.GetStartDate()).Days + 1;
+                MessageBox.Show(days.ToString());
+                tempLabel.Width = column.Width.Value * days;
+
             }
 
+
+
             TimelineGrid.Children.Add(tempLabel);
-            
+
             Grid.SetColumn(tempLabel, startColumn);
 
             //sets span of the label, this represents the days
@@ -124,7 +152,7 @@ namespace ProjectManagmentSoftware
             //adds one to the nextRowIndex
             nextRowIndex++;
 
-            
+
             RedrawGridLines();
 
 
@@ -145,7 +173,7 @@ namespace ProjectManagmentSoftware
             tempLine.Y1 = 0;
             tempLine.Y2 = SystemParameters.PrimaryScreenHeight;
 
-        
+
             Grid.SetColumn(tempLine, lineCount);
 
 
@@ -169,22 +197,40 @@ namespace ProjectManagmentSoftware
             tempLabel.FontSize = 10;
             tempLabel.Foreground = Brushes.Black;
 
+
+
             TimelineGrid.Children.Add(tempLabel);
             Grid.SetColumn(tempLabel, headerCount);
 
             //sets alignment
             tempLabel.VerticalAlignment = VerticalAlignment.Top;
             tempLabel.HorizontalAlignment = HorizontalAlignment.Center;
+
         }
 
 
 
 
-       
+
 
         //not that optimized and should probably delete all lines first
         void RedrawGridLines()
         {
+
+
+            int count = 0;
+            for (int i = 0; i < TimelineGrid.Children.Count; i++)
+            {
+                if (TimelineGrid.Children[count].GetType() == typeof(Line))
+                {
+                    TimelineGrid.Children.Remove(TimelineGrid.Children[count]);
+                }
+                else
+                {
+                    count++;
+                }
+            }
+
 
             int distance = (int)SystemParameters.PrimaryScreenWidth / CalculateDays();
 
@@ -211,19 +257,86 @@ namespace ProjectManagmentSoftware
 
                     TimelineGrid.Children.Add(tempLine);
                 }
-                
-                
-                
-                
+
+
+
+
             }
 
         }
 
 
+        void GetMousePos(object sender, MouseEventArgs e)
+        {
+            Point p = e.GetPosition(sender as Label);
+
+            CalculateDistanceToEnd(p, sender as Label);
+
+        }
+
+
+        void CalculateDistanceToEnd(Point mousePos, Label card)
+        {
+            double rMargin = card.Width - 200;
+            double lMargin = 0 + 200;
+            //Margins for dragging card
+
+
+
+            //checks if the mouse is over either margin
+            if (mousePos.X > rMargin)
+            {
+                Mouse.OverrideCursor = Cursors.Hand;
+                isOverMargin = true;
+                
+            }
+            else if (mousePos.X < lMargin)
+            {
+                Mouse.OverrideCursor = Cursors.Hand;
+                isOverMargin = true;
+
+            }
+            else
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+                isOverMargin = false;
+
+
+            }
+
+          
+
+
+
+            
+
+
+
+
+        }
+
+
+        
+
+
+        
+
+        void ColumDragTest(object sender, MouseEventArgs e)
+        {
+           
+
+            var inputElement = TimelineGrid.InputHitTest(e.GetPosition(TimelineGrid));
+
+           
+
+            MessageBox.Show(inputElement.ToString());
+        }
 
 
         
     }
+
 }
+
 
 
