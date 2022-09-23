@@ -50,6 +50,7 @@ namespace ProjectManagmentSoftware
             var tempNotification = new Notification();
             tempNotification.NotificationLoop();
             Project.currentBoard = this;
+            
 
 
         }
@@ -58,7 +59,8 @@ namespace ProjectManagmentSoftware
 
         public void LoadProjectDetails()
         {
-
+            
+            FileSave.SaveLoop();
 
             //added a reset to the toDoRowCount
             toDoRowCount = 0;

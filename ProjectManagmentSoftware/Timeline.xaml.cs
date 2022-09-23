@@ -383,7 +383,7 @@ namespace ProjectManagmentSoftware
                 {
                     if (mousePos.X == column)
                     {
-                        UpdateCard(columnPositions.IndexOf(column) + 1);
+                        UpdateCard(columnPositions.IndexOf(column) + 1, mousePos.X);
                         
                         
                     }
