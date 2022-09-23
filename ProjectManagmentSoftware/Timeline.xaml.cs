@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace ProjectManagmentSoftware
 {
@@ -14,20 +15,35 @@ namespace ProjectManagmentSoftware
     {
 
 
+
+        List<int> columnPositions = new List<int>();
+
+        int numOfDays;
+
         bool isDragging;
 
         bool isOverMargin;
+
+        Label currentCardBeingDragged;
+
+        int distance;
+
+        bool isStartDrag;
+
+
+       
 
         int nextRowIndex = 0;
         public Timeline()
         {
             InitializeComponent();
 
+            TimelineGrid.PreviewMouseMove += TimeLineMove;
+            TimelineGrid.PreviewMouseUp += CardMouseUp;
 
             LoadGrid(CalculateDays());
 
 
-            TimelineGrid.PreviewMouseMove += ColumDragTest;
 
 
         }
@@ -35,7 +51,7 @@ namespace ProjectManagmentSoftware
 
         int CalculateDays()
         {
-            int numOfDays = 0;
+            numOfDays = 0;
             numOfDays = (Project.endDate - Project.startDate).Days;
             numOfDays++;
             return numOfDays;
@@ -44,7 +60,7 @@ namespace ProjectManagmentSoftware
         public void LoadGrid(int days)
         {
             //PrimaryScreenWidth returns the monitor width
-            int distance = (int)SystemParameters.PrimaryScreenWidth / days;
+            distance = (int)SystemParameters.PrimaryScreenWidth / days;
 
             //creates first line at left corner of screen
             CreateLine(0, 0);
@@ -63,6 +79,9 @@ namespace ProjectManagmentSoftware
                 //sets column's tag to the date being loaded
                 tempColum.Tag = currentDate;
                 tempColum.Width = new GridLength(distance);
+                columnPositions.Add((int)(tempColum.Width.Value * (i + 1)));
+
+                
                 
 
 
@@ -107,6 +126,7 @@ namespace ProjectManagmentSoftware
 
 
             tempLabel.MouseMove += GetMousePos;
+            tempLabel.MouseDown += CardMouseDown;
             
 
 
@@ -131,7 +151,6 @@ namespace ProjectManagmentSoftware
 
 
                 var days = (card.GetEndDate() - card.GetStartDate()).Days + 1;
-                MessageBox.Show(days.ToString());
                 tempLabel.Width = column.Width.Value * days;
 
             }
@@ -281,6 +300,10 @@ namespace ProjectManagmentSoftware
             double lMargin = 0 + 200;
             //Margins for dragging card
 
+            
+
+
+
 
 
             //checks if the mouse is over either margin
@@ -288,12 +311,16 @@ namespace ProjectManagmentSoftware
             {
                 Mouse.OverrideCursor = Cursors.Hand;
                 isOverMargin = true;
-                
+
+                isStartDrag = false;
+
+
             }
             else if (mousePos.X < lMargin)
             {
                 Mouse.OverrideCursor = Cursors.Hand;
                 isOverMargin = true;
+                isStartDrag = true;
 
             }
             else
@@ -304,37 +331,118 @@ namespace ProjectManagmentSoftware
 
             }
 
-          
 
 
+        }
+
+
+
+        
+
+
+        
+
+
+        
+
+        void CardMouseDown(object sender, MouseEventArgs e)
+        {
+            if (isOverMargin)
+            {
+                isDragging = true;
+                var tempLabel = sender as Label;
+               currentCardBeingDragged = tempLabel;
+            }
+
+
+           
+            
+        }
+
+
+        void CardMouseUp(object sender, MouseEventArgs e)
+        {
+            isDragging = false;
+            currentCardBeingDragged = null;
+            
+            
+        }
+
+
+
+
+
+
+        void TimeLineMove(object sender, MouseEventArgs e)
+        {
+
+            var mousePos = e.GetPosition(sender as UIElement);
+            if (isDragging)
+            {
+                foreach (int column in columnPositions)
+                {
+                    if (mousePos.X == column)
+                    {
+                        UpdateCard(columnPositions.IndexOf(column) + 1);
+                        
+                        
+                    }
+                }
+
+
+            }
+        }
+
+
+        void UpdateCard(int columnIndex, double mousePos)
+        {
 
             
+            var tempcard = (Card)currentCardBeingDragged.Tag;
+            if (isStartDrag)
+            {
+
+                if (mousePos < 0)
+                {
+                    MessageBox.Show(mousePos.ToString());
+                    tempcard.SetStartDate(tempcard.GetEndDate().AddDays(columnIndex));
+                }
+                else
+                {
+                    MessageBox.Show(mousePos.ToString());
+                    tempcard.SetStartDate(tempcard.GetEndDate().AddDays(-columnIndex));
+                }
+                //sets start date
+                tempcard.SetStartDate(tempcard.GetEndDate().AddDays(-columnIndex));
+                                                                   //mini if statment to see if mousePos is less then one to know if to add or subtract a day
+            }
+            else
+            {
+                //sets new end date
+                tempcard.SetEndDate(tempcard.GetStartDate().AddDays(columnIndex));
+            }
+
+
+            Grid.SetColumnSpan(currentCardBeingDragged, columnIndex);
+
+
+            //sets card width
+            var days = (tempcard.GetEndDate() - tempcard.GetStartDate()).Days + 1;
+
+            currentCardBeingDragged.Width = distance * days;
+
+            Grid.SetColumnSpan(currentCardBeingDragged, days);
 
 
 
 
         }
 
-
-        
-
-
-        
-
-        void ColumDragTest(object sender, MouseEventArgs e)
-        {
-           
-
-            var inputElement = TimelineGrid.InputHitTest(e.GetPosition(TimelineGrid));
-
-           
-
-            MessageBox.Show(inputElement.ToString());
-        }
-
-
-        
     }
+
+    
+
+
 
 }
 
