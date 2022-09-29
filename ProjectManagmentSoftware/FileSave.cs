@@ -8,47 +8,68 @@ using System.Windows;
 
 namespace ProjectManagmentSoftware
 {
-     static class FileSave
+    static class FileSave
     {
 
-       static public void SaveLoop()
+        static public void SaveLoop()
         {
-
-
-
 
             Save();
         }
 
 
-       static async void Save()
+        static async void Save()
         {
-            using (FileStream fs = new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) +  Project.projectName +".pm", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(@"C:\Users\oline\Desktop\ProjectManagmentFiles\" + Project.projectName + ".pm", FileMode.OpenOrCreate))
             {
                 using (BinaryWriter bw = new BinaryWriter(fs))
                 {
-                    bw.Write(Project.startDate.ToString());
-                    bw.Write(Project.endDate.ToString());
-                    bw.Write(Project.cards.ToString());
-                    bw.Write(Project.projectName);
-
+                    bw.Write(Project.startDate.ToString() + "," + Project.endDate.ToString() + "," + Project.projectName);
+                    
                     
 
+                    SaveCards();
 
                     MessageBox.Show("Save Done");
 
-                    
 
-                    
+
+
                 }
 
 
             }
 
-                await Task.Delay(5000);
-                Save();
+            await Task.Delay(5000);
+            Save();
 
         }
 
+
+        static void SaveCards()
+        {
+
+            using (FileStream fs = new FileStream(@"C:\Users\oline\Desktop\ProjectManagmentFiles\" + Project.projectName + " cards" + ".pm", FileMode.OpenOrCreate))
+            {
+                using (BinaryWriter bw = new BinaryWriter(fs))
+                {
+                    foreach (Card card in Project.cards)
+                    {
+                        bw.Write(card.GetTitle() + ",");
+                        bw.Write(card.GetDescription() + ",");
+                        bw.Write(card.GetStartDate() + ",");
+                        bw.Write(card.GetEndDate() + ",");
+                        bw.Write(card.GetNotificationEnabled() + ",");
+                        bw.Write(card.GetState() + ",");
+                        bw.Write(Environment.NewLine);
+
+                        MessageBox.Show("Save Done");
+                    }
+
+                    fs.Close();
+
+                }
+            }
+        }
     }
 }

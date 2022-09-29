@@ -2,7 +2,10 @@
 namespace ProjectManagmentSoftware
 {
     //all possible states the card can be in
+    
     public enum State { todo, inprogress, done }
+
+    [Serializable]
     public class Card
     {
 

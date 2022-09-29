@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace ProjectManagmentSoftware
 {
@@ -24,12 +15,12 @@ namespace ProjectManagmentSoftware
 
 
         // Minimize to system tray when application is closed.
-        
+
 
         public MainMenu()
         {
             InitializeComponent();
-            
+
         }
         //handles sending the application to tray
         bool exitButtonClose;
@@ -48,14 +39,14 @@ namespace ProjectManagmentSoftware
 
                 Hide();
             }
-           
+
 
 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+
 
 
 
@@ -65,7 +56,7 @@ namespace ProjectManagmentSoftware
             Project.endDate = Convert.ToDateTime(projectEndDateTextBox.Text);
 
 
-            
+
 
             exitButtonClose = false;
             LoadProject();
@@ -94,10 +85,10 @@ namespace ProjectManagmentSoftware
         {
             //selects today's date as the default date in the date pickers
             projectStartDateTextBox.SelectedDate = DateTime.Today;
-            projectEndDateTextBox.SelectedDate= DateTime.Today;
-           
+            projectEndDateTextBox.SelectedDate = DateTime.Today;
 
-            
+
+
         }
 
 
@@ -106,10 +97,10 @@ namespace ProjectManagmentSoftware
         {
             if (projectStartDateTextBox.SelectedDate < DateTime.Today)
             {
-                System.Windows.MessageBox.Show("Error: date can not be less then today");
+                MessageBox.Show("Error: date can not be less then today");
                 projectStartDateTextBox.SelectedDate = DateTime.Today;
 
-                
+
             }
 
         }
@@ -118,12 +109,52 @@ namespace ProjectManagmentSoftware
         {
             if (projectEndDateTextBox.SelectedDate < projectStartDateTextBox.SelectedDate)
             {
-                System.Windows.MessageBox.Show("Error: date can not be less then start date");
+                MessageBox.Show("Error: date can not be less then start date");
                 projectEndDateTextBox.SelectedDate = projectStartDateTextBox.SelectedDate;
             }
-            
+
         }
 
+        private void LoadFilesGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            var rowCount = 0;
+            List<Button> projectButtons = new List<Button>();
 
+
+            projectButtons = FileLoad.LoadProjects();
+
+            foreach (Button button in projectButtons)
+            {
+                LoadFilesGrid.Children.Add(button);
+                Grid.SetColumn(button, 0);
+                Grid.SetRow(button, rowCount);
+                LoadFilesGrid.RowDefinitions.Add(new RowDefinition());
+
+
+                //sets button click event to loading the project data from the file
+                button.Click += LoadSavedFile;
+
+                rowCount++;
+            }
+
+        }
+
+        void LoadSavedFile(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+
+           var projectDetails = button.Tag as List<string>;
+
+
+            //set project start and end date
+            Project.startDate = Convert.ToDateTime(projectDetails[0]);
+            Project.endDate = Convert.ToDateTime(projectDetails[1]);
+
+            //sets project name
+            Project.projectName = projectDetails[2];
+
+            //load kanbanboard window
+            LoadProject();
+        }
     }
 }
