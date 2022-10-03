@@ -17,6 +17,13 @@ namespace ProjectManagmentSoftware
             Save();
         }
 
+        static public void ExitSave()
+        {
+            Save();
+            SaveCards();
+            
+        }
+
 
         static async void Save()
         {
@@ -30,7 +37,7 @@ namespace ProjectManagmentSoftware
 
                     SaveCards();
 
-                    MessageBox.Show("Save Done");
+
 
 
 
@@ -55,16 +62,14 @@ namespace ProjectManagmentSoftware
                 {
                     foreach (Card card in Project.cards)
                     {
-                        bw.Write(card.GetTitle() + ",");
-                        bw.Write(card.GetDescription() + ",");
-                        bw.Write(card.GetStartDate() + ",");
-                        bw.Write(card.GetEndDate() + ",");
-                        bw.Write(card.GetNotificationEnabled() + ",");
-                        bw.Write(card.GetState() + ",");
-                        bw.Write(Environment.NewLine);
+                        bw.Write(card.GetTitle() + "," + card.GetDescription() + "," + card.GetStartDate() + "," + card.GetEndDate() + "," + card.GetNotificationEnabled() + "," + card.GetState() + "**");
 
-                        MessageBox.Show("Save Done");
+
+
+
                     }
+
+                    
 
                     fs.Close();
 

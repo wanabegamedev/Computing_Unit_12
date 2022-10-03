@@ -72,6 +72,7 @@ namespace ProjectManagmentSoftware
             var kanbanBoard = new KanbanBoard();
             kanbanBoard.Show();
             kanbanBoard.LoadProjectDetails();
+            
 
         }
 
@@ -152,6 +153,10 @@ namespace ProjectManagmentSoftware
 
             //sets project name
             Project.projectName = projectDetails[2];
+
+
+            //load project's cards
+            FileLoad.LoadCards();
 
             //load kanbanboard window
             LoadProject();
