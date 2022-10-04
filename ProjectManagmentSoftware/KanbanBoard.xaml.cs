@@ -3,7 +3,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace ProjectManagmentSoftware
 {
@@ -33,7 +34,10 @@ namespace ProjectManagmentSoftware
                 TrayHandler.GetWindow(this);
                 e.Cancel = true;
 
+                FileSave.ExitSave();
+
                 Hide();
+
 
                 //need to add exit button to timeline view
             }
@@ -50,7 +54,7 @@ namespace ProjectManagmentSoftware
             var tempNotification = new Notification();
             tempNotification.NotificationLoop();
             Project.currentBoard = this;
-            
+
 
 
         }
@@ -59,7 +63,7 @@ namespace ProjectManagmentSoftware
 
         public void LoadProjectDetails()
         {
-            
+
             FileSave.SaveLoop();
 
             //added a reset to the toDoRowCount
@@ -178,12 +182,17 @@ namespace ProjectManagmentSoftware
                     Kanban_Grid.RowDefinitions.Add(newRow);
                     toDoRowCount += 1;
 
+                    RedrawGridLines();
+
                 }
 
 
             }
 
         }
+
+
+
 
 
 
@@ -211,6 +220,7 @@ namespace ProjectManagmentSoftware
 
                     tempButton.Content = tempCard.GetTitle();
 
+                    //move to all buttons
                     tempButton.MouseDoubleClick += CardDoubleClick;
                 }
                 else
@@ -230,6 +240,7 @@ namespace ProjectManagmentSoftware
 
             Kanban_Grid.RowDefinitions.Add(newRow);
             toDoRowCount += 1;
+            RedrawGridLines();
 
 
         }
@@ -348,7 +359,65 @@ namespace ProjectManagmentSoftware
             var TimelineWindow = new Timeline();
             TimelineWindow.Show();
         }
-    }
 
+
+        void RedrawGridLines()
+        {
+
+
+            int count = 0;
+            for (int i = 0; i < Kanban_Grid.Children.Count; i++)
+            {
+                if (Kanban_Grid.Children[count].GetType() == typeof(Line))
+                {
+                    Kanban_Grid.Children.Remove(Kanban_Grid.Children[count]);
+                }
+                else
+                {
+                    count++;
+                }
+            }
+
+
+
+            //cycles through each row and column re drawing lines when a visual bar is added
+            foreach (RowDefinition rowDefinition in Kanban_Grid.RowDefinitions)
+            {
+
+                foreach (ColumnDefinition columnDefinition in Kanban_Grid.ColumnDefinitions)
+                {
+                    var tempLine = new Line();
+                    tempLine.StrokeThickness = 5;
+                    tempLine.Stroke = Brushes.Wheat;
+
+                    //sets x and y position of line
+                    tempLine.X1 = 270;
+                    tempLine.X2 = 270;
+                    tempLine.Y1 = 0;
+                    tempLine.Y2 = SystemParameters.PrimaryScreenHeight;
+
+
+                    Grid.SetColumn(tempLine, Kanban_Grid.ColumnDefinitions.IndexOf(columnDefinition));
+                    Grid.SetRow(tempLine, Kanban_Grid.RowDefinitions.IndexOf(rowDefinition));
+
+
+                    Kanban_Grid.Children.Add(tempLine);
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+        }
+    }
 }
 

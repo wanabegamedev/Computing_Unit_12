@@ -129,6 +129,7 @@ namespace ProjectManagmentSoftware
                 LoadFilesGrid.Children.Add(button);
                 Grid.SetColumn(button, 0);
                 Grid.SetRow(button, rowCount);
+                button.HorizontalAlignment = HorizontalAlignment.Center;
                 LoadFilesGrid.RowDefinitions.Add(new RowDefinition());
 
 

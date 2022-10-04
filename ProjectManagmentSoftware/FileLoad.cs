@@ -108,12 +108,27 @@ namespace ProjectManagmentSoftware
             {
                 using (BinaryReader br = new BinaryReader(fs))
                 {
+                    string cardString = "";
 
-                    string cardString = br.ReadString();
+                    //validation for broken card save files 
+                    try
+                    {
+                       cardString = br.ReadString();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Error: Issue reading cards");
+                        return;
+                        
+                    }
 
                     
 
                     string[] cards = cardString.Split("**");
+
+                    
+                    
+
 
 
                     for (int i = 0; i < cards.Length - 1; i++)

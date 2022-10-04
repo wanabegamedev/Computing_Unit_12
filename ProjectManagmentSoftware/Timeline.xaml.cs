@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ProjectManagmentSoftware
 {
@@ -30,16 +31,42 @@ namespace ProjectManagmentSoftware
 
         bool isStartDrag;
 
+        //handles sending the application to tray
+        bool exitButtonClose;
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            exitButtonClose = true;
+            if (exitButtonClose)
+            {
 
-       
+                // setting cancel to true will cancel the close request
+                // so the application is not closed
+
+                TrayHandler.CreateNotifyIcon();
+                TrayHandler.GetWindow(this);
+                e.Cancel = true;
+
+                FileSave.ExitSave();
+
+                Hide();
+
+
+                //need to add exit button to timeline view
+            }
+
+
+
+        }
+
+
 
         int nextRowIndex = 0;
         public Timeline()
         {
             InitializeComponent();
 
-            TimelineGrid.PreviewMouseMove += TimeLineMove;
-            TimelineGrid.PreviewMouseUp += CardMouseUp;
+            //TimelineGrid.MouseMove += TimeLineMove;
+            //TimelineGrid.MouseUp += CardMouseUp;
 
             LoadGrid(CalculateDays());
 
@@ -126,7 +153,7 @@ namespace ProjectManagmentSoftware
 
 
             tempLabel.MouseMove += GetMousePos;
-            tempLabel.MouseDown += CardMouseDown;
+            //tempLabel.MouseDown += CardMouseDown;
             
 
 
@@ -150,19 +177,19 @@ namespace ProjectManagmentSoftware
 
 
 
-                var days = (card.GetEndDate() - card.GetStartDate()).Days + 1;
-                tempLabel.Width = column.Width.Value * days;
-
+                //broken
+                
             }
 
+            var days = (card.GetEndDate() - card.GetStartDate()).Days;
 
-
+            
             TimelineGrid.Children.Add(tempLabel);
 
             Grid.SetColumn(tempLabel, startColumn);
 
             //sets span of the label, this represents the days
-            Grid.SetColumnSpan(tempLabel, endColumn + 1);
+            Grid.SetColumnSpan(tempLabel, days + 1);
             Grid.SetRow(tempLabel, nextRowIndex);
 
 
@@ -383,7 +410,7 @@ namespace ProjectManagmentSoftware
                 {
                     if (mousePos.X == column)
                     {
-                        UpdateCard(columnPositions.IndexOf(column) + 1, mousePos.X);
+                        UpdateCard(columnPositions.IndexOf(column) + 1);
                         
                         
                     }
@@ -394,7 +421,7 @@ namespace ProjectManagmentSoftware
         }
 
 
-        void UpdateCard(int columnIndex, double mousePos)
+        void UpdateCard(int columnIndex)
         {
 
             
@@ -402,19 +429,9 @@ namespace ProjectManagmentSoftware
             if (isStartDrag)
             {
 
-                if (mousePos < 0)
-                {
-                    MessageBox.Show(mousePos.ToString());
-                    tempcard.SetStartDate(tempcard.GetEndDate().AddDays(columnIndex));
-                }
-                else
-                {
-                    MessageBox.Show(mousePos.ToString());
-                    tempcard.SetStartDate(tempcard.GetEndDate().AddDays(-columnIndex));
-                }
                 //sets start date
                 tempcard.SetStartDate(tempcard.GetEndDate().AddDays(-columnIndex));
-                                                                   //mini if statment to see if mousePos is less then one to know if to add or subtract a day
+
             }
             else
             {
@@ -423,12 +440,12 @@ namespace ProjectManagmentSoftware
             }
 
 
-            Grid.SetColumnSpan(currentCardBeingDragged, columnIndex);
+            
 
 
             //sets card width
-            var days = (tempcard.GetEndDate() - tempcard.GetStartDate()).Days + 1;
-
+            var days = (tempcard.GetEndDate() - tempcard.GetStartDate()).Days;
+                
             currentCardBeingDragged.Width = distance * days;
 
             Grid.SetColumnSpan(currentCardBeingDragged, days);

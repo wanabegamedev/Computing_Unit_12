@@ -38,6 +38,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid x:Name="LoadFilesGrid" HorizontalAlignment="Left" Height="252" Margin="78,54,0,0" VerticalAlignment="Top" Width="642" Loaded="LoadFilesGrid_Loaded"/>
                     <Grid/>
+                    <Label Content="Load Projects" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.196" FontSize="24" Height="32" Width="142"/>
 
                 </Grid>
 
