@@ -9,7 +9,7 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         Title="KanbanBoard" Height="450" Width="800">
 
-    <Grid x:Name="Base_Grid" Margin="0,56,0,0">
+    <Grid x:Name="Base_Grid" Margin="0,56,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -22,17 +22,15 @@
 
 
 
-        <Grid x:Name="Header_Grid" Grid.Row="0" Margin="0,-54,0,346" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <Grid x:Name="Header_Grid" Grid.Row="0" Margin="0,-53,0,351" VerticalAlignment="Stretch" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="259"/>
-                <ColumnDefinition Width="266"/>
-                <ColumnDefinition Width="158.523"/>
+                <ColumnDefinition Width="800"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Todo" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0,0.767" FontSize="20" Height="28" Width="42"/>
-            <Label Content="In Progress" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0,0.767" FontSize="20" Grid.Column="1" Height="28" Width="98"/>
-            <Label Content="Done" Margin="88,5,-88,0" VerticalAlignment="Top" RenderTransformOrigin="0,0.767" FontSize="20" Grid.Column="2" Height="27"/>
+            <Label Content="Todo" HorizontalAlignment="Left" RenderTransformOrigin="0,0.767" FontSize="20" Height="28" Width="44" Margin="109,-4,0,0" VerticalAlignment="Top"/>
+            <Label Content="In Progress" HorizontalAlignment="Center" RenderTransformOrigin="0,0.767" FontSize="20" Margin="0,-5,0,4" Width="98"/>
+            <Label Content="Done" VerticalAlignment="Top" RenderTransformOrigin="0,0.767" FontSize="20" Margin="649,-5,103,0" Height="27" Width="48"/>
         </Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,30" Grid.RowSpan="1">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,30" Grid.RowSpan="1" HorizontalAlignment="Center" VerticalAlignment="Stretch">
             <Grid x:Name="Kanban_Grid">
 
                 <Grid.RowDefinitions>
