@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+
 namespace ProjectManagmentSoftware
 {
     /// <summary>
@@ -20,7 +21,7 @@ namespace ProjectManagmentSoftware
         public MainMenu()
         {
             InitializeComponent();
-
+            PathLabel.Content = Properties.Settings.Default.ProjectFolderPath;
         }
         //handles sending the application to tray
         bool exitButtonClose;
@@ -161,6 +162,27 @@ namespace ProjectManagmentSoftware
 
             //load kanbanboard window
             LoadProject();
+        }
+
+        
+
+        
+
+        private void PathLabel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    dialog.ShowNewFolderButton = true;
+                    Properties.Settings.Default.ProjectFolderPath = dialog.SelectedPath;
+                    Properties.Settings.Default.Save();
+
+
+                    PathLabel.Content = Properties.Settings.Default.ProjectFolderPath;
+                }
+            }
         }
     }
 }

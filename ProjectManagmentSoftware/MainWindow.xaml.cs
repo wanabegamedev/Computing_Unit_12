@@ -36,12 +36,7 @@ namespace ProjectManagmentSoftware
 
 
             MessageBox.Show(Properties.Settings.Default.ProjectFolderPath);
-            //FolderBrowserDialog openFileDialog = new OpenFileDialog();
-            //if (openFileDialog.ShowDialog() == true)
-            //{
-             //   Properties.Settings.Default.ProjectFolderPath = openFileDialog.FileName;
-            //    Properties.Settings.Default.Save();
-            //}
+
                 
 
 

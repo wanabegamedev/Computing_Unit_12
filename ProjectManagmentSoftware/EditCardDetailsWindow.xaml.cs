@@ -22,7 +22,7 @@ namespace ProjectManagmentSoftware
     {
         Card selectedCard;
         Button selectedButton;
-        public EditCardDetailsWindow(Card selectedCard, Button selectedButton)
+        public EditCardDetailsWindow(Card selectedCard, Button selectedButton = null)
         {
             InitializeComponent();
             this.selectedCard = selectedCard;
@@ -72,7 +72,11 @@ namespace ProjectManagmentSoftware
             selectedCard.SetEndDate(Convert.ToDateTime(EndDatePicker.Text));
             selectedCard.SetNotificationEnabled(tempNotificationChecked);
 
-            selectedButton.Content = selectedCard.GetTitle();
+            if (selectedButton != null)
+            {
+                selectedButton.Content = selectedCard.GetTitle();
+            }
+            
 
             //closes the window
             this.Close();

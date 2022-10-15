@@ -61,6 +61,7 @@ namespace ProjectManagmentSoftware
             var tempNotification = new Notification();
             tempNotification.NotificationLoop();
             Project.currentBoard = this;
+            
 
 
 

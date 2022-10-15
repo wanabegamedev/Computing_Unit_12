@@ -26,7 +26,7 @@ namespace ProjectManagmentSoftware
         {
             createdButtons = new List<Button>();
           
-            projectCardFile = Directory.GetFiles(@"C:\Users\oline\Desktop\ProjectManagmentFiles\").ToList();
+            projectCardFile = Directory.GetFiles(Properties.Settings.Default.ProjectFolderPath).ToList();
 
             
             //check for project card files
@@ -36,11 +36,17 @@ namespace ProjectManagmentSoftware
             {
 
                 //check for project's card file
-                if (file.Contains("cards"))
+                if (!file.Contains(".pm"))
+                {
+                    
+                    continue;
+                }
+
+                else if (file.Contains("cards"))
                 {
                     continue;
                 }
-                
+
 
 
                 projectDetails = new List<string>();
@@ -55,7 +61,7 @@ namespace ProjectManagmentSoftware
 
                         //gets all project details in file
 
-                        string[] details = fileString.Split(",");
+                        string[] details = fileString.Split(((char)140).ToString());
 
 
                         foreach (string word in details)
@@ -80,8 +86,11 @@ namespace ProjectManagmentSoftware
                     //adds details to button tag
                     tempButton.Tag = projectDetails;
 
+                
                     tempButton.Content = projectDetails[2];
 
+                    
+                    
                     createdButtons.Add(tempButton);
 
                 
@@ -98,13 +107,13 @@ namespace ProjectManagmentSoftware
         {
             List<Card> tempCards = new List<Card>();
 
-            if (!File.Exists(@"C:\Users\oline\Desktop\ProjectManagmentFiles\" + Project.projectName + " cards" + ".pm"))
+            if (!File.Exists(Properties.Settings.Default.ProjectFolderPath + @"\" + Project.projectName + " cards" + ".pm"))
             {
                 MessageBox.Show("Error: No cards found for project");
                 return;
             }
 
-            using (FileStream fs = new FileStream(@"C:\Users\oline\Desktop\ProjectManagmentFiles\" + Project.projectName + " cards" + ".pm", FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream(Properties.Settings.Default.ProjectFolderPath + @"\" + Project.projectName + " cards" + ".pm", FileMode.Open, FileAccess.Read))
             {
                 using (BinaryReader br = new BinaryReader(fs))
                 {
@@ -124,7 +133,7 @@ namespace ProjectManagmentSoftware
 
                     
 
-                    string[] cards = cardString.Split("**");
+                    string[] cards = cardString.Split(((char)141).ToString());
 
                     
                     
@@ -167,7 +176,7 @@ namespace ProjectManagmentSoftware
             //state 5
 
 
-            string[] details = card.Split(",");
+            string[] details = card.Split(((char)140).ToString());
 
             Card tempCard = new Card(details[0], Convert.ToDateTime(details[2]), Convert.ToDateTime(details[3]), details[1], Convert.ToBoolean(details[4]));
 

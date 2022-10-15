@@ -153,7 +153,7 @@ namespace ProjectManagmentSoftware
 
 
             tempLabel.MouseMove += GetMousePos;
-            //tempLabel.MouseDown += CardMouseDown;
+            tempLabel.MouseDown += OpenEditCardWindow;
             
 
 
@@ -455,8 +455,20 @@ namespace ProjectManagmentSoftware
 
         }
 
+
+        //not the best as it does not update the label after edits have been made
+        void OpenEditCardWindow(object sender, MouseEventArgs e)
+        {
+            var tempCard = (sender as Label).Tag;
+           var newCardWindow = new EditCardDetailsWindow(tempCard as Card);
+
+            newCardWindow.Show();
+        }
+
     }
 
+
+    
     
 
 

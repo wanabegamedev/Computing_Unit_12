@@ -55,6 +55,12 @@
 
 
             </TabItem>
+            <TabItem Header="Settings" Foreground="Black">
+                <Grid Background="#FFE5E5E5">
+                    <Label x:Name="PathLabel" Content="Test" HorizontalAlignment="Center" Margin="0,136,0,0" VerticalAlignment="Top" Background="White" Width="554" HorizontalContentAlignment="Center" MouseDoubleClick="PathLabel_MouseDoubleClick" Foreground="Black"/>
+                    <Label Content="Projects File Path" HorizontalAlignment="Center" Margin="0,112,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
         </TabControl>
 
     </Grid>
