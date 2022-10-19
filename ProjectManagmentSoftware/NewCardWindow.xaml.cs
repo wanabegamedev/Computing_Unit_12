@@ -39,9 +39,14 @@ namespace ProjectManagmentSoftware
             StartDatePicker.DisplayDateEnd = Project.endDate;
             EndDatePicker.DisplayDateStart = Project.startDate;
             EndDatePicker.DisplayDateEnd = Project.endDate;
-           
-            
-            
+
+            StartDatePicker.SelectedDateChanged += StartDateValidation;
+            EndDatePicker.SelectedDateChanged += EndDateValidation;
+
+
+
+
+
         }
 
 
@@ -76,6 +81,7 @@ namespace ProjectManagmentSoftware
             }
 
 
+            
 
             var newCard = new Card(TitleInputBox.Text, Convert.ToDateTime(StartDatePicker.SelectedDate), Convert.ToDateTime(EndDatePicker.SelectedDate), tempDescription, tempNotificationCheck);
             //adds card to project's card list
@@ -85,6 +91,47 @@ namespace ProjectManagmentSoftware
             this.Close();
            
 
+        }
+
+
+
+        //----Start of validation for NewCardWindow----
+        void StartDateValidation(object sender, SelectionChangedEventArgs e)
+        {
+            if (StartDatePicker.SelectedDate > Project.endDate)
+            {
+                MessageBox.Show("Error: Date can not be more than project end date");
+                StartDatePicker.SelectedDate = Project.endDate;
+            }
+            else if(StartDatePicker.SelectedDate < Project.startDate)
+            {
+                MessageBox.Show("Error: Date can not be less than project start date");
+                StartDatePicker.SelectedDate = Project.startDate;
+            }
+            else if(StartDatePicker.SelectedDate > EndDatePicker.SelectedDate)
+            {
+                MessageBox.Show("Error: Date can not be more than end date");
+                StartDatePicker.SelectedDate = EndDatePicker.SelectedDate;
+            }
+        }
+
+        void EndDateValidation(object sender, SelectionChangedEventArgs e)
+        {
+            if (EndDatePicker.SelectedDate > Project.endDate)
+            {
+                MessageBox.Show("Error: Date can not be more than project end date");
+                EndDatePicker.SelectedDate = Project.endDate;
+            }
+            else if (StartDatePicker.SelectedDate < Project.startDate)
+            {
+                MessageBox.Show("Error: Date can not be less than project start date");
+                EndDatePicker.SelectedDate = Project.startDate;
+            }
+            else if (EndDatePicker.SelectedDate < StartDatePicker.SelectedDate)
+            {
+                MessageBox.Show("Error: Date can not be less then start date");
+                EndDatePicker.SelectedDate = StartDatePicker.SelectedDate;
+            }
         }
     }
 }

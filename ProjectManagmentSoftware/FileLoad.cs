@@ -12,9 +12,7 @@ namespace ProjectManagmentSoftware
 {
     static class FileLoad
     {
-        static List<string> projectCardFile;
-        
-        
+        static List<string> projectFileDirectories;
         static List<string> projectDetails;
         static List<Button> createdButtons;
 
@@ -26,22 +24,23 @@ namespace ProjectManagmentSoftware
         {
             createdButtons = new List<Button>();
           
-            projectCardFile = Directory.GetFiles(Properties.Settings.Default.ProjectFolderPath).ToList();
+            projectFileDirectories = Directory.GetFiles(Properties.Settings.Default.ProjectFolderPath).ToList();
 
             
             //check for project card files
             
             
-            foreach (string file in projectCardFile)
+            foreach (string file in projectFileDirectories)
             {
 
-                //check for project's card file
+                //check for project's card file and rejects all other files
                 if (!file.Contains(".pm"))
                 {
                     
                     continue;
                 }
 
+                //makes sure it is not reading the project's card file
                 else if (file.Contains("cards"))
                 {
                     continue;
@@ -86,7 +85,7 @@ namespace ProjectManagmentSoftware
                     //adds details to button tag
                     tempButton.Tag = projectDetails;
 
-                
+                    //sets button's name to project name
                     tempButton.Content = projectDetails[2];
 
                     
@@ -107,6 +106,7 @@ namespace ProjectManagmentSoftware
         {
             List<Card> tempCards = new List<Card>();
 
+            //checks to see if card file exists for project
             if (!File.Exists(Properties.Settings.Default.ProjectFolderPath + @"\" + Project.projectName + " cards" + ".pm"))
             {
                 MessageBox.Show("Error: No cards found for project");
@@ -132,7 +132,7 @@ namespace ProjectManagmentSoftware
                     }
 
                     
-
+                    //gets all cards in file
                     string[] cards = cardString.Split(((char)141).ToString());
 
                     
@@ -176,13 +176,14 @@ namespace ProjectManagmentSoftware
             //state 5
 
 
+            //gets card components
             string[] details = card.Split(((char)140).ToString());
 
             Card tempCard = new Card(details[0], Convert.ToDateTime(details[2]), Convert.ToDateTime(details[3]), details[1], Convert.ToBoolean(details[4]));
 
             object newState;
 
-            //sets card strate in kanban board
+            //sets card state in kanban board
             Enum.TryParse(typeof(State), details[5], out newState);
 
 

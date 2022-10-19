@@ -14,10 +14,6 @@ namespace ProjectManagmentSoftware
     public partial class MainMenu : Window
     {
 
-
-        // Minimize to system tray when application is closed.
-
-
         public MainMenu()
         {
             InitializeComponent();
@@ -107,6 +103,7 @@ namespace ProjectManagmentSoftware
 
         }
 
+        
         private void projectEndDateTextBox_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (projectEndDateTextBox.SelectedDate < projectStartDateTextBox.SelectedDate)
@@ -117,6 +114,7 @@ namespace ProjectManagmentSoftware
 
         }
 
+        //loads found save files to screen
         private void LoadFilesGrid_Loaded(object sender, RoutedEventArgs e)
         {
             var rowCount = 0;
@@ -175,6 +173,7 @@ namespace ProjectManagmentSoftware
 
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    //allows the changing of the file save path
                     dialog.ShowNewFolderButton = true;
                     Properties.Settings.Default.ProjectFolderPath = dialog.SelectedPath;
                     Properties.Settings.Default.Save();

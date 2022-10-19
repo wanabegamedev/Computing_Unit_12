@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.ComponentModel;
 using System.Windows.Forms;
 namespace ProjectManagmentSoftware
 {
@@ -24,11 +12,13 @@ namespace ProjectManagmentSoftware
 
         public static NotifyIcon CreateNotifyIcon()
         {
-            notifyIcon = new System.Windows.Forms.NotifyIcon();
-            notifyIcon.Text = "hi";
+            notifyIcon = new NotifyIcon();
+            notifyIcon.Text = Project.projectName;
+            //BalloonTip wont work on newer versions of Windows
             notifyIcon.BalloonTipText = "hi";
             notifyIcon.Icon = new System.Drawing.Icon("Icon.ico");
             notifyIcon.Visible = true;
+            //allows application to be reopened
             notifyIcon.Click += OnTrayClick;
 
             return notifyIcon;

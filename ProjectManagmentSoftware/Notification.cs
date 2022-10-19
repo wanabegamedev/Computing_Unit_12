@@ -18,6 +18,7 @@ namespace ProjectManagmentSoftware
     {
         
          string title;
+
         Card currentCard;
 
         
@@ -62,6 +63,7 @@ namespace ProjectManagmentSoftware
         void EndDateNotification()
         {
 
+            //creates windows notification
             title = currentCard.GetTitle() + " is about to expire on " + currentCard.GetEndDate().ToString();
             new ToastContentBuilder()
                 .AddButton(new ToastButton()
@@ -74,6 +76,7 @@ namespace ProjectManagmentSoftware
                 .SetBackgroundActivation())
             .AddText(title).Show();
 
+            //adds click event to notification
             ToastNotificationManagerCompat.OnActivated += ToastNotificationManagerCompat_OnActivated;
             
             
@@ -83,6 +86,7 @@ namespace ProjectManagmentSoftware
 
         void StartDateNotification()
         {
+            //creates windows notification
             title = currentCard.GetTitle() + " is to start on " + currentCard.GetStartDate().Date.ToString();
             new ToastContentBuilder()
             .AddText(title).Show();

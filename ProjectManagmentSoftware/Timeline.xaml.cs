@@ -19,6 +19,8 @@ namespace ProjectManagmentSoftware
 
         List<int> columnPositions = new List<int>();
 
+        //all variables in this area are not used.
+        //-------------------
         int numOfDays;
 
         bool isDragging;
@@ -28,6 +30,7 @@ namespace ProjectManagmentSoftware
         Label currentCardBeingDragged;
 
         int distance;
+        //-------------------
 
         bool isStartDrag;
 
@@ -177,7 +180,7 @@ namespace ProjectManagmentSoftware
 
 
 
-                //broken
+                
                 
             }
 
@@ -312,6 +315,28 @@ namespace ProjectManagmentSoftware
         }
 
 
+
+
+
+        //not the best as it does not update the label after edits have been made
+        void OpenEditCardWindow(object sender, MouseEventArgs e)
+        {
+            var tempCard = (sender as Label).Tag;
+            var newCardWindow = new EditCardDetailsWindow(tempCard as Card);
+
+            newCardWindow.Show();
+        }
+
+
+
+
+
+
+        //all code after this is not used, as it is related to the removed card dragging feature
+
+
+
+
         void GetMousePos(object sender, MouseEventArgs e)
         {
             Point p = e.GetPosition(sender as Label);
@@ -319,6 +344,7 @@ namespace ProjectManagmentSoftware
             CalculateDistanceToEnd(p, sender as Label);
 
         }
+
 
 
         void CalculateDistanceToEnd(Point mousePos, Label card)
@@ -420,7 +446,6 @@ namespace ProjectManagmentSoftware
             }
         }
 
-
         void UpdateCard(int columnIndex)
         {
 
@@ -456,14 +481,7 @@ namespace ProjectManagmentSoftware
         }
 
 
-        //not the best as it does not update the label after edits have been made
-        void OpenEditCardWindow(object sender, MouseEventArgs e)
-        {
-            var tempCard = (sender as Label).Tag;
-           var newCardWindow = new EditCardDetailsWindow(tempCard as Card);
-
-            newCardWindow.Show();
-        }
+        
 
     }
 

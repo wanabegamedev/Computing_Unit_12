@@ -26,7 +26,7 @@
                     <DatePicker x:Name="projectStartDateTextBox" Height="46" Margin="40,112,0,0" VerticalAlignment="Top" Width="132" IsDropDownOpen="True" SelectedDateChanged="projectStartDateTextBox_SelectedDateChanged"/>
                     <Label Content="Start Date" HorizontalAlignment="Left" Margin="72,85,0,0" VerticalAlignment="Top" Height="27" Width="68"/>
                     <DatePicker x:Name="projectEndDateTextBox" Height="46" Margin="571,124,0,0" VerticalAlignment="Top" Width="132" SelectedDateChanged="projectEndDateTextBox_SelectedDateChanged"/>
-                    <Label Content="Start Date" HorizontalAlignment="Left" Margin="603,97,0,0" VerticalAlignment="Top" Height="27" Width="68"/>
+                    <Label Content="End Date" HorizontalAlignment="Left" Margin="603,97,0,0" VerticalAlignment="Top" Height="27" Width="68"/>
                 </Grid>
 
 
