@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
 namespace ProjectManagmentSoftware
@@ -17,7 +18,31 @@ namespace ProjectManagmentSoftware
         public MainMenu()
         {
             InitializeComponent();
+            if (Properties.Settings.Default.FistRun == true)
+            {
+                MessageBox.Show("Please enter a filepath to save your projects to");
+                using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+                {
+
+                    if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        //allows the changing of the file save path
+                        dialog.ShowNewFolderButton = true;
+                        Properties.Settings.Default.ProjectFolderPath = dialog.SelectedPath;
+                        Properties.Settings.Default.Save();
+
+
+                        PathLabel.Content = Properties.Settings.Default.ProjectFolderPath;
+                    }
+                }
+
+                Properties.Settings.Default.FistRun = false;
+                Properties.Settings.Default.Save();
+
+
+            }
             PathLabel.Content = Properties.Settings.Default.ProjectFolderPath;
+
         }
         //handles sending the application to tray
         bool exitButtonClose;
@@ -182,6 +207,11 @@ namespace ProjectManagmentSoftware
                     PathLabel.Content = Properties.Settings.Default.ProjectFolderPath;
                 }
             }
+        }
+
+        private void QuitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

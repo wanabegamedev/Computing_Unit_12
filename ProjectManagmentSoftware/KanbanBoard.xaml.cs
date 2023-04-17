@@ -19,7 +19,6 @@ namespace ProjectManagmentSoftware
     {
 
 
-        
 
         Button buttonBeingDragged;
 
@@ -344,6 +343,7 @@ namespace ProjectManagmentSoftware
         //creates and returns a new button
         Button CreateNewButton()
         {
+         
             var newButton = new Button();
             newButton.HorizontalAlignment = HorizontalAlignment.Center;
 
@@ -352,6 +352,9 @@ namespace ProjectManagmentSoftware
             newButton.PreviewMouseDown += DragIt;
             newButton.Drop += DropIt;
             newButton.AllowDrop = true;
+
+            //set button tooltip
+            newButton.ToolTip = "Double click on button to edit details";
 
             return newButton;
 
@@ -366,6 +369,8 @@ namespace ProjectManagmentSoftware
         {
             var TimelineWindow = new Timeline();
             TimelineWindow.Show();
+            MessageBox.Show("Click on a card to edit its settings");
+
         }
 
 
@@ -429,8 +434,14 @@ namespace ProjectManagmentSoftware
 
         }
 
-        
-        
+      
+
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            //closes current window
+            this.Close();
+
+        }
     }
 }
 

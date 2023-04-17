@@ -228,7 +228,7 @@ namespace ProjectManagmentSoftware
 
             TimelineGrid.Children.Add(tempLine);
 
-
+            
 
 
 

@@ -3,7 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="ProjectFolderPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\oline\Documents</Value>
+      <Value Profile="(Default)">%LOCALAPPDATA%</Value>
+    </Setting>
+    <Setting Name="FistRun" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -16,7 +16,15 @@ namespace ProjectManagmentSoftware
             notifyIcon.Text = Project.projectName;
             //BalloonTip wont work on newer versions of Windows
             notifyIcon.BalloonTipText = "hi";
-            notifyIcon.Icon = new System.Drawing.Icon("Icon.ico");
+            try
+            {
+                notifyIcon.Icon = new System.Drawing.Icon("Icon.ico");
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
             notifyIcon.Visible = true;
             //allows application to be reopened
             notifyIcon.Click += OnTrayClick;
